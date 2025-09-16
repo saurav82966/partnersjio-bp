@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <link rel="stylesheet" href="/application.css">
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDiUXKlL2uFqZTJF80OycHwEU44OMjH5U4",
+      authDomain: "inquiry-form-796d0.firebaseapp.com",
+      databaseURL: "https://inquiry-form-796d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "inquiry-form-796d0",
+      storageBucket: "inquiry-form-796d0.appspot.com", // FIXED
+      messagingSenderId: "538374486014",
+      appId: "1:538374486014:web:0fd94f1b12a1c9e72f72af"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expression of Interest - Mobility Station Dealer</title>
+</head>
+<body>
+  <div class="navbar">
+    <!-- Left -->
+    <div class="navbar-left">
+      <img src="/assets/img/logo-main screen.svg" alt="Jio-bp Logo">
+    </div>
+
+    <!-- Center -->
+    <div class="navbar-center">
+      Partners in <span>Progress</span>
+    </div>
+
+    <!-- Right -->
+    <div class="navbar-right">
+      <a href="#">For Jio-bp dealership</a>
+      <a href="#">For EV Charging Station Partner</a>
+    </div>
+  </div>
+
+  <!-- Color strip -->
+  <div class="color-strip">
+    <div class="strip-green"></div>
+    <div class="strip-yellow"></div>
+    <div class="strip-darkgreen"></div>
+  </div>
+
+  <div class="container">
+    <h2>Expression of Interest - Mobility Station Dealer</h2>
+
+    <!-- ✅ Form Start -->
+    <form id="applicationForm" onsubmit="return validateForm()">
+
+      <!-- Applicant Details -->
+      <div class="section-title">Applicant Details</div>
+      <div class="form-group half">
+        <input type="text" id="firstName" placeholder="First Name *" required>
+        <input type="text" id="middleName" placeholder="Middle Name">
+        <input type="text" id="lastName" placeholder="Last Name *" required>
+      </div>
+      <div class="error-message" id="nameError"></div>
+
+      <div class="form-group half">
+        <input type="email" id="email" placeholder="Email ID *" required>
+        <input type="tel" id="mobile" placeholder="Mobile *" required>
+      </div>
+      <div class="error-message" id="contactError"></div>
+
+      <div class="form-group half">
+        <select id="sourceInfo" required>
+          <option value="">Source of Information *</option>
+          <option value="website">Website</option>
+          <option value="advertisement">Advertisement</option>
+          <option value="reference">Reference</option>
+        </select>
+        <select id="occupation" required>
+          <option value="">Current Occupation *</option>
+          <option value="business">Business</option>
+          <option value="job">Job</option>
+          <option value="others">Others</option>
+        </select>
+        <input type="number" id="income" placeholder="Last Year's Income in Rs (Lacs) *" required min="0">
+      </div>
+      <div class="error-message" id="occupationError"></div>
+
+      <!-- Advertised Location Details -->
+      <div class="section-title">Advertised Location Details</div>
+      <div class="form-group half">
+        <select id="state" required>
+          <option value="">State *</option>
+          <option value="ap">Andhra Pradesh</option>
+          <option value="ts">Telangana</option>
+        </select>
+        <select id="district" required>
+          <option value="">District *</option>
+          <option value="anakapalli">Anakapalli</option>
+          <option value="visakhapatnam">Visakhapatnam</option>
+        </select>
+        <input type="text" id="landDetail" placeholder="Land Detail">
+      </div>
+      <div class="error-message" id="locationError"></div>
+
+      <div class="form-group">
+        <input type="text" id="stretchDetails" placeholder="Stretch Details (with landmarks)">
+      </div>
+
+      <!-- Applicant Land Details -->
+      <div class="section-title">Applicant Land Details</div>
+      <div class="form-group">
+        <input type="text" id="proposedLocation" placeholder="Proposed Location Address/City *" required>
+      </div>
+      <div class="error-message" id="addressError"></div>
+
+      <div class="form-group half">
+        <input type="text" id="latitude" placeholder="Latitude">
+        <input type="text" id="longitude" placeholder="Longitude">
+        <input type="number" id="frontage" placeholder="Frontage (in meters) *" required min="0">
+      </div>
+      <div class="error-message" id="dimensionsError1"></div>
+
+      <div class="form-group half">
+        <input type="number" id="rearLength" placeholder="Rear Length (in meters) *" required min="0">
+        <input type="number" id="rhsDepth" placeholder="RHS Depth (in meters) *" required min="0">
+        <input type="number" id="lhsDepth" placeholder="LHS Depth (in meters) *" required min="0">
+      </div>
+      <div class="error-message" id="dimensionsError2"></div>
+
+      <!-- Captcha -->
+      <div class="section-title">Verification</div>
+      <div class="captcha-box">
+        <div class="captcha-code" id="captcha">X7WL</div>
+        <button type="button" class="btn" style="border-radius:8px;padding:6px 12px;" onclick="generateCaptcha()">↻</button>
+      </div>
+      <div class="form-group">
+        <input type="text" id="captchaInput" placeholder="Captcha *" required>
+      </div>
+      <div class="error-message" id="captchaError"></div>
+
+      <!-- Disclaimer -->
+      <div class="section-title">Disclaimer</div>
+      <div class="disclaimer">
+        <p>Mere submission of the information by you shall not be deemed as guaranteed acceptance of the EOI and does not guarantee any commitment by the company.</p>
+        <p>Company reserves the right to reject any application at its sole discretion without assigning any reason or intimation.</p>
+        <p>We do not have any agents to facilitate Channel Partner appointments, kindly do not deal with any third party who assure grant of dealership etc. to you. <a href="#" style="color:red">*Read Fraud Advisory for further information.</a></p>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="agreeCheckbox" required>
+        <label for="agreeCheckbox">Read the disclaimer & I agree to receive any communication from Jio-bp in this regard.</label>
+      </div>
+      <div class="error-message" id="checkboxError"></div>
+
+      <div class="spinner" id="spinner"></div>
+      <button class="btn" id="submitBtn" type="submit">Register Now</button>
+    </form>
+    <!-- ✅ Form End -->
+  </div>
+
+  <!-- Error Modal -->
+  <div class="modal" id="errorModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Error</div>
+        <span class="close" onclick="closeModal('errorModal')">&times;</span>
+      </div>
+      <div class="modal-body" id="errorMessage">
+        There was an error processing your request.
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" onclick="closeModal('errorModal')">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal success-modal" id="successModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Success</div>
+        <span class="close" onclick="closeModal('successModal')">&times;</span>
+      </div>
+      <div class="modal-body" id="successMessage">
+        Form submitted successfully!
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" onclick="closeModal('successModal')">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentCaptcha = "X7WL"; 
+    
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let captcha = "";
+      for (let i = 0; i < 5; i++) {
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById("captcha").innerText = captcha;
+      currentCaptcha = captcha;
+    }
+
+    window.onload = function() {
+      generateCaptcha();
+    };
+
+    function getTokenFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('token');
+    }
+
+    function showModal(modalId, message) {
+      if (modalId === 'errorModal') {
+        document.getElementById('errorMessage').innerText = message;
+      } else if (modalId === 'successModal') {
+        document.getElementById('successMessage').innerText = message;
+      }
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function isValidPhone(phone) {
+      const phoneRegex = /^[6-9]\d{9}$/;
+      return phoneRegex.test(phone);
+    }
+
+    function validateForm() {
+      event.preventDefault(); // ✅ Stop form default submit
+      let isValid = true;
+      const errors = {};
+      
+      document.querySelectorAll('.error-message').forEach(el => el.innerText = '');
+      document.querySelectorAll('input, select').forEach(el => el.classList.remove('error'));
+      
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      if (!firstName) {
+        errors.name = 'First name is required';
+        document.getElementById('firstName').classList.add('error');
+        isValid = false;
+      }
+      if (!lastName) {
+        errors.name = errors.name ? errors.name + ', Last name is required' : 'Last name is required';
+        document.getElementById('lastName').classList.add('error');
+        isValid = false;
+      }
+      if (errors.name) document.getElementById('nameError').innerText = errors.name;
+
+      const email = document.getElementById('email').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      if (!email || !isValidEmail(email)) {
+        document.getElementById('email').classList.add('error');
+        errors.contact = 'Valid email is required';
+        isValid = false;
+      }
+      if (!mobile || !isValidPhone(mobile)) {
+        document.getElementById('mobile').classList.add('error');
+        errors.contact = errors.contact ? errors.contact + ', Valid mobile required' : 'Valid mobile required';
+        isValid = false;
+      }
+      if (errors.contact) document.getElementById('contactError').innerText = errors.contact;
+
+      const sourceInfo = document.getElementById('sourceInfo').value;
+      const occupation = document.getElementById('occupation').value;
+      const income = document.getElementById('income').value;
+      if (!sourceInfo || !occupation || !income || income < 0) {
+        document.getElementById('occupationError').innerText = 'Please fill source, occupation & valid income';
+        isValid = false;
+      }
+
+      const state = document.getElementById('state').value;
+      const district = document.getElementById('district').value;
+      if (!state || !district) {
+        document.getElementById('locationError').innerText = 'State & District required';
+        isValid = false;
+      }
+
+      const proposedLocation = document.getElementById('proposedLocation').value.trim();
+      if (!proposedLocation) {
+        document.getElementById('addressError').innerText = 'Proposed location is required';
+        isValid = false;
+      }
+
+      const frontage = document.getElementById('frontage').value;
+      const rearLength = document.getElementById('rearLength').value;
+      const rhsDepth = document.getElementById('rhsDepth').value;
+      const lhsDepth = document.getElementById('lhsDepth').value;
+      if (!frontage || !rearLength || !rhsDepth || !lhsDepth) {
+        document.getElementById('dimensionsError2').innerText = 'All land dimensions are required';
+        isValid = false;
+      }
+
+      const captchaInput = document.getElementById('captchaInput').value.trim();
+      if (!captchaInput || captchaInput.toUpperCase() !== currentCaptcha.toUpperCase()) {
+        document.getElementById('captchaError').innerText = 'Captcha does not match';
+        document.getElementById('captchaInput').classList.add('error');
+        isValid = false;
+        generateCaptcha();
+      }
+
+      const agreeCheckbox = document.getElementById('agreeCheckbox').checked;
+      if (!agreeCheckbox) {
+        document.getElementById('checkboxError').innerText = 'You must agree to the terms';
+        isValid = false;
+      }
+
+      if (isValid) submitForm();
+      return false;
+    }
+
+    function collectFormData() {
+      return {
+        firstName: document.getElementById('firstName').value.trim(),
+        middleName: document.getElementById('middleName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        mobile: document.getElementById('mobile').value.trim(),
+        sourceInfo: document.getElementById('sourceInfo').value,
+        occupation: document.getElementById('occupation').value,
+        income: document.getElementById('income').value,
+        state: document.getElementById('state').value,
+        district: document.getElementById('district').value,
+        landDetail: document.getElementById('landDetail').value.trim(),
+        stretchDetails: document.getElementById('stretchDetails').value.trim(),
+        proposedLocation: document.getElementById('proposedLocation').value.trim(),
+        latitude: document.getElementById('latitude').value.trim(),
+        longitude: document.getElementById('longitude').value.trim(),
+        frontage: document.getElementById('frontage').value,
+        rearLength: document.getElementById('rearLength').value,
+        rhsDepth: document.getElementById('rhsDepth').value,
+        lhsDepth: document.getElementById('lhsDepth').value,
+        agreedToTerms: document.getElementById('agreeCheckbox').checked,
+        submittedAt: new Date().toISOString()
+      };
+    }
+
+    async function submitForm() {
+      const token = getTokenFromUrl();
+      if (!token) {
+        showModal('errorModal', 'Token not found. Please start from the main page.');
+        return;
+      }
+
+      const data = collectFormData();
+      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('submitBtn').disabled = true;
+
+      try {
+        await db.ref('dealership_applications/' + token).set({
+          application: data,
+          applicationSubmittedAt: new Date().toISOString()
+        });
+        showModal('successModal', 'Form submitted successfully!');
+        document.getElementById('applicationForm').reset(); // ✅ FIXED RESET
+        generateCaptcha(); // refresh captcha after submit
+
+        // Redirect to payment.html with token
+        window.location.href = `payment.html?token=${token}`;
+      } catch (err) {
+        showModal('errorModal', 'Error saving application: ' + err.message);
+      } finally {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('submitBtn').disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
