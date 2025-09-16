@@ -1,2255 +1,107 @@
-<html lang="en" style="height: auto; min-height: 100%;">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <link rel="stylesheet" href="/application.css">
+
   <script>
-    // TODO: Replace with your Firebase project config
+    // Firebase configuration
     const firebaseConfig = {
-     apiKey: "AIzaSyDiUXKlL2uFqZTJF80OycHwEU44OMjH5U4",
-  authDomain: "inquiry-form-796d0.firebaseapp.com",
-  databaseURL: "https://inquiry-form-796d0-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "inquiry-form-796d0",
-  storageBucket: "inquiry-form-796d0.firebasestorage.app",
-  messagingSenderId: "538374486014",
-  appId: "1:538374486014:web:0fd94f1b12a1c9e72f72af"
+      apiKey: "AIzaSyDiUXKlL2uFqZTJF80OycHwEU44OMjH5U4",
+      authDomain: "inquiry-form-796d0.firebaseapp.com",
+      databaseURL: "https://inquiry-form-796d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "inquiry-form-796d0",
+      storageBucket: "inquiry-form-796d0.appspot.com", // FIXED
+      messagingSenderId: "538374486014",
+      appId: "1:538374486014:web:0fd94f1b12a1c9e72f72af"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
   </script>
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Partners</title>
-  <base href="/">
-
-  <meta name="author" content="Hrishikesh Satvidkar">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="theme-color" content="#1976d2">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
-  <style>
-    .overlay[_ngcontent-khj-c146] {
-      height: 100vh;
-      width: 100%;
-      background-color: rgba(0, 0, 0, .286);
-      z-index: 10;
-      top: 0;
-      left: 0;
-      position: fixed
-    }
-
-    .center[_ngcontent-khj-c146] {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%)
-    }
-
-    .spinner-container[_ngcontent-khj-c146] mat-spinner[_ngcontent-khj-c146] {
-      margin: 0 auto
-    }
-  </style>
-  <style>
-    .la-line-scale[_ngcontent-khj-c146],
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146] {
-      position: relative;
-      box-sizing: border-box
-    }
-
-    .la-line-scale[_ngcontent-khj-c146] {
-      display: block;
-      font-size: 0;
-      color: #fff
-    }
-
-    .la-line-scale.la-dark[_ngcontent-khj-c146] {
-      color: #333
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146] {
-      display: inline-block;
-      float: none;
-      background-color: currentColor;
-      border: 0 solid
-    }
-
-    .la-line-scale[_ngcontent-khj-c146] {
-      width: 40px;
-      height: 32px
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146] {
-      width: 4px;
-      height: 32px;
-      margin: 0 2px;
-      border-radius: 0;
-      animation: line-scale 1.2s ease infinite
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146]:first-child {
-      animation-delay: -1.2s
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146]:nth-child(2) {
-      animation-delay: -1.1s
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146]:nth-child(3) {
-      animation-delay: -1s
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146]:nth-child(4) {
-      animation-delay: -.9s
-    }
-
-    .la-line-scale[_ngcontent-khj-c146]>div[_ngcontent-khj-c146]:nth-child(5) {
-      animation-delay: -.8s
-    }
-
-    .la-line-scale.la-sm[_ngcontent-khj-c146] {
-      width: 20px;
-      height: 16px
-    }
-
-    .la-line-scale.la-sm[_ngcontent-khj-c146]>div[_ngcontent-khj-c146] {
-      width: 2px;
-      height: 16px;
-      margin: 0 1px
-    }
-
-    .la-line-scale.la-2x[_ngcontent-khj-c146] {
-      width: 80px;
-      height: 64px
-    }
-
-    .la-line-scale.la-2x[_ngcontent-khj-c146]>div[_ngcontent-khj-c146] {
-      width: 8px;
-      height: 64px;
-      margin: 0 4px
-    }
-
-    .la-line-scale.la-3x[_ngcontent-khj-c146] {
-      width: 120px;
-      height: 96px
-    }
-
-    .la-line-scale.la-3x[_ngcontent-khj-c146]>div[_ngcontent-khj-c146] {
-      width: 12px;
-      height: 96px;
-      margin: 0 6px
-    }
-
-    @keyframes line-scale {
-
-      0%,
-      40%,
-      to {
-        transform: scaleY(.4)
-      }
-
-      20% {
-        transform: scaleY(1)
-      }
-    }
-  </style>
-  <style>
-    @media (-ms-high-contrast:active),
-    (-ms-high-contrast:none) {
-      .container[_ngcontent-khj-c143] {
-        width: 500px
-      }
-    }
-
-    .custom-dialog-container-otp .mat-dialog-container {
-      overflow: unset;
-      border: 3px solid #00274b;
-      padding: 5px 5px 15px;
-      width: 40vw;
-      height: 60vh
-    }
-
-    @media (max-width:700px) {
-      .custom-dialog-container-otp .mat-dialog-container {
-        width: 80vw;
-        height: 80vh
-      }
-    }
-
-    .custom-dialog-container-otp .mat-dialog-container .mat-dialog-content {
-      margin: 0 10px
-    }
-
-    .custom-dialog-container-otp .close-button {
-      float: right;
-      top: -46px;
-      right: -45px
-    }
-
-    @media (-ms-high-contrast:active),
-    (-ms-high-contrast:none) {
-      .custom-dialog-container-otp .close-button {
-        top: -23px;
-        right: -23px
-      }
-    }
-
-    .verify[_ngcontent-khj-c143] {
-      color: #00274b;
-      font-size: 20px;
-      font-weight: 500;
-      margin-top: 12px;
-      margin-bottom: 15px
-    }
-
-    .login-fill[_ngcontent-khj-c143],
-    .verify[_ngcontent-khj-c143] {
-      font-family: \$font-family1
-    }
-
-    .login-fill[_ngcontent-khj-c143] {
-      padding: 10px;
-      background: #00274b;
-      min-width: 171px;
-      height: 48px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 400;
-      text-transform: none;
-      border: 1px solid #00274b;
-      border-radius: 25px;
-      transition: all .5s ease
-    }
-
-    .login-fill[_ngcontent-khj-c143]:hover {
-      background: transparent;
-      color: #00274b
-    }
-
-    h5[_ngcontent-khj-c143] {
-      font-family: \$font-family1 !important;
-      font-size: 14px !important
-    }
-
-    .landing-page[_ngcontent-khj-c143] {
-      background-color: #fff;
-      min-height: 80px
-    }
-
-    .landing-page[_ngcontent-khj-c143] .container[_ngcontent-khj-c143] {
-      max-width: 963px
-    }
-
-    .landing-page[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143] {
-      margin-bottom: -45px
-    }
-
-    @media (max-width:767px) {
-      .landing-page[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143] {
-        margin-left: 10px
-      }
-    }
-
-    .landing-page__log-div[_ngcontent-khj-c143] {
-      position: absolute;
-      padding: 10px 50px 0 0;
-      top: 30px;
-      right: 0;
-      width: 360px
-    }
-
-    @media (max-width:1024px) {
-      .landing-page__log-div[_ngcontent-khj-c143] {
-        padding-right: 13px;
-        top: 18px;
-        width: 300px
-      }
-    }
-
-    @media (max-width:767px) {
-      .landing-page__log-div[_ngcontent-khj-c143] {
-        padding-right: 13px;
-        top: 5px;
-        width: 250px
-      }
-    }
-
-    .landing-page__log-div[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 37%
-    }
-
-    @media (max-width:767px) {
-      .landing-page__log-div[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-        width: 45%
-      }
-    }
-
-    .landing-page[_ngcontent-khj-c143] .bar-image[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] {
-      max-width: 100%;
-      margin: auto
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div-row[_ngcontent-khj-c143] {
-      display: flex;
-      width: 100%;
-      overflow: auto;
-      justify-content: center
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div-row[_ngcontent-khj-c143] {
-        flex-wrap: wrap;
-        overflow: inherit;
-        margin-top: 20px
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div[_ngcontent-khj-c143] {
-      position: relative;
-      margin: 0 15px
-    }
-
-    @media (min-width:1199px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div[_ngcontent-khj-c143] {
-        flex: 0 0 14.5%;
-        max-width: 14.5%
-      }
-    }
-
-    @media (max-width:1024px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div[_ngcontent-khj-c143] {
-        width: 20%;
-        margin-top: 15px
-      }
-    }
-
-    @media (max-width:992px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div[_ngcontent-khj-c143] {
-        width: 30%;
-        margin-top: 15px
-      }
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div[_ngcontent-khj-c143] {
-        width: 90%;
-        margin-top: 0
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner[_ngcontent-khj-c143] {
-      box-shadow: 0 3px 6px rgba(0, 0, 0, .1607843137254902);
-      border-radius: 20px;
-      margin: 32% 0 30px
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner[_ngcontent-khj-c143] {
-        display: flex;
-        align-items: center;
-        margin: 10px 0
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner[_ngcontent-khj-c143] .img-radius[_ngcontent-khj-c143] {
-      border-radius: 20px 20px 0 0
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner[_ngcontent-khj-c143] .img-radius[_ngcontent-khj-c143] {
-        border-radius: 20px 0 0 20px;
-        width: 40%;
-        -o-object-fit: cover;
-        object-fit: cover;
-        height: 140px
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-img[_ngcontent-khj-c143] {
-      box-shadow: 0 3px 6px rgba(0, 0, 0, .1607843137254902);
-      width: 85px;
-      height: 85px;
-      padding: 8px;
-      border-radius: 50px;
-      position: relative;
-      top: -50px;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: auto
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-img[_ngcontent-khj-c143] {
-        width: 70px;
-        height: 70px;
-        top: 0;
-        left: -30px
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-img[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 55px
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-img[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-        width: 43px
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] {
-      padding: 0 35px 65px;
-      text-align: center;
-      margin-top: -35px
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] {
-        margin-top: 0;
-        padding: 10px 10px 13px;
-        margin-left: -25px;
-        text-align: left
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] p[_ngcontent-khj-c143] {
-      font: 500 14px/16px jiotypelight
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] p[_ngcontent-khj-c143] {
-        font: 500 12px/16px jiotypelight
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .bold[_ngcontent-khj-c143] {
-      font-weight: 700;
-      margin-top: 7px
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn[_ngcontent-khj-c143] {
-      border-radius: 25px;
-      background-color: #04a651;
-      color: #fff;
-      width: 130px;
-      text-align: center;
-      padding: 2px 10px;
-      position: absolute;
-      bottom: 15px;
-      left: 0;
-      right: 0;
-      margin: auto;
-      text-transform: capitalize
-    }
-
-    @media (max-width:1500px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn[_ngcontent-khj-c143] {
-        bottom: 50px
-      }
-    }
-
-    @media (max-width:1024px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn[_ngcontent-khj-c143] {
-        bottom: 40px
-      }
-    }
-
-    @media (max-width:767px) {
-      .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn[_ngcontent-khj-c143] {
-        position: inherit;
-        margin-top: 10px
-      }
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn.msd[_ngcontent-khj-c143] {
-      background-color: #04a651
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn.ev[_ngcontent-khj-c143] {
-      background-color: #0f4188
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn.pp[_ngcontent-khj-c143] {
-      background-color: #d8b21a
-    }
-
-    .card-div-wrapper[_ngcontent-khj-c143] .card-div__inner__inner-text[_ngcontent-khj-c143] .card-btn.coms[_ngcontent-khj-c143] {
-      background-color: #625255
-    }
-
-    @media (min-width:992px) {
-      .col-lg-8[_ngcontent-khj-c143] {
-        flex: 0 0 66.66666667%;
-        max-width: 100%
-      }
-    }
-
-    @media (min-width:768px) {
-      .offset-md-2[_ngcontent-khj-c143] {
-        margin-left: 0
-      }
-    }
-
-    .login-form[_ngcontent-khj-c143] {
-      zoom: 100% !important
-    }
-
-    .emptyDiv[_ngcontent-khj-c143] {
-      height: 100px !important;
-      background-color: #fff
-    }
-
-    @media (min-width:768px) {
-      .visible-for-small[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143],
-    .visible-for-small[_ngcontent-khj-c143] .header-partner-bold[_ngcontent-khj-c143] {
-      font-size: 30px
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143] {
-      margin-left: 10px
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .d-flex[_ngcontent-khj-c143] {
-      align-items: center;
-      justify-content: end;
-      margin-top: 10px
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .partner__coms[_ngcontent-khj-c143],
-    .visible-for-small[_ngcontent-khj-c143] .partner__ev[_ngcontent-khj-c143],
-    .visible-for-small[_ngcontent-khj-c143] .partner__msd[_ngcontent-khj-c143],
-    .visible-for-small[_ngcontent-khj-c143] .partner__pp[_ngcontent-khj-c143] {
-      height: 2px;
-      margin-top: 18px
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .partner__msd[_ngcontent-khj-c143] {
-      background-color: #04a651
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .partner__ev[_ngcontent-khj-c143] {
-      background-color: #0f4188
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .partner__pp[_ngcontent-khj-c143] {
-      background-color: #d8b21a
-    }
-
-    .visible-for-small[_ngcontent-khj-c143] .partner__coms[_ngcontent-khj-c143] {
-      background-color: #625255
-    }
-
-    @media (max-width:767px) {
-      .hide-lg[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .visible-xs[_ngcontent-khj-c143] {
-      display: none
-    }
-
-    @media (max-width:767px) {
-      .visible-xs[_ngcontent-khj-c143] {
-        display: block
-      }
-    }
-
-    @media (min-width:768px) {
-      .partner-bottom-mobile[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .partner-bottom-mobile[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .partner-bottom-mobile[_ngcontent-khj-c143] .d-flex[_ngcontent-khj-c143] {
-      align-items: center
-    }
-
-    .partner-bottom-mobile[_ngcontent-khj-c143] .know-more[_ngcontent-khj-c143] {
-      font-weight: 400;
-      text-transform: none;
-      border: 1px solid #00274b;
-      color: #fff;
-      border-radius: 25px;
-      transition: all .5s ease;
-      padding: 10px 25px;
-      background: #00274b
-    }
-
-    .header-partner[_ngcontent-khj-c143] {
-      font-family: jiotypelight;
-      color: #04a651;
-      font-size: 40px;
-      text-align: left;
-      margin-top: 24px;
-      margin-left: 20px
-    }
-
-    @media (max-width:767px) {
-      .header-partner[_ngcontent-khj-c143] {
-        margin-top: 14px;
-        font-size: 24px
-      }
-    }
-
-    .header-partner-bold[_ngcontent-khj-c143] {
-      font-family: jiotypebold;
-      color: #04a651;
-      font-size: 40px;
-      text-align: left;
-      margin-top: 24px;
-      font-weight: 800;
-      margin-left: 15px
-    }
-
-    @media (max-width:767px) {
-      .header-partner-bold[_ngcontent-khj-c143] {
-        margin-top: 14px;
-        margin-left: 5px;
-        font-size: 24px
-      }
-    }
-
-    .partners-message[_ngcontent-khj-c143] {
-      width: auto;
-      margin-left: 20px;
-      margin-top: 20px;
-      margin-right: 10px
-    }
-
-    @media (max-width:991px) {
-      .partners-message[_ngcontent-khj-c143] {
-        margin-right: 20px
-      }
-    }
-
-    .partners-message__msd[_ngcontent-khj-c143] {
-      background: #efffef
-    }
-
-    .partners-message__ev[_ngcontent-khj-c143] {
-      background: #effbff
-    }
-
-    .partners-message__pp[_ngcontent-khj-c143] {
-      background: #fdfbf1
-    }
-
-    .partners-message__coms[_ngcontent-khj-c143] {
-      background: #f2f1f2
-    }
-
-    .bottom-img[_ngcontent-khj-c143] {
-      margin-left: 20px
-    }
-
-    .bottom-img[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 98%
-    }
-
-    .partner-bottom[_ngcontent-khj-c143] .d-flex[_ngcontent-khj-c143] {
-      align-items: center
-    }
-
-    .ev-heading[_ngcontent-khj-c143] h6[_ngcontent-khj-c143] {
-      font-family: jiotypebold;
-      font-size: 12px;
-      color: #002d7f;
-      border-bottom: 1px solid #5b91bd;
-      padding-bottom: 7px;
-      margin-bottom: 10px
-    }
-
-    .partners-message[_ngcontent-khj-c143] label[_ngcontent-khj-c143] {
-      width: 100%;
-      line-height: 20px;
-      font-weight: 700;
-      margin-left: 10px;
-      margin-top: 15px
-    }
-
-    .partners-message[_ngcontent-khj-c143] label[_ngcontent-khj-c143],
-    .partners-message[_ngcontent-khj-c143] li[_ngcontent-khj-c143] {
-      text-align: left;
-      font-family: jiotypelight;
-      color: #000;
-      letter-spacing: .5px;
-      font-size: 12px
-    }
-
-    .partners-message[_ngcontent-khj-c143] li[_ngcontent-khj-c143] {
-      opacity: 1;
-      padding-bottom: 10px;
-      margin-left: 5px
-    }
-
-    .partners-message[_ngcontent-khj-c143] ul[_ngcontent-khj-c143] {
-      padding-left: 20px;
-      list-style-type: disc
-    }
-
-    .ML30[_ngcontent-khj-c143] {
-      margin-left: 30px
-    }
-
-    h3[_ngcontent-khj-c143] {
-      color: #000 !important;
-      font-family: jiotypelight;
-      padding-bottom: 15px
-    }
-
-    .form-group[_ngcontent-khj-c143] {
-      margin-bottom: 10px !important
-    }
-
-    .login-form[_ngcontent-khj-c143] {
-      font-size: 12px !important
-    }
-
-    .login-fill[_ngcontent-khj-c143] {
-      font-size: 14px !important;
-      min-width: 171px !important;
-      height: 48px !important;
-      letter-spacing: .5px
-    }
-
-    .know-more[_ngcontent-khj-c143],
-    .login-fill[_ngcontent-khj-c143] {
-      font-family: jiotypelight !important
-    }
-
-    .know-more[_ngcontent-khj-c143] {
-      font-size: 10px !important;
-      min-width: 121px !important;
-      height: 34px !important;
-      margin-top: 0 !important
-    }
-
-    .login-right[_ngcontent-khj-c143] {
-      padding-left: 55px !important
-    }
-
-    @media (max-width:767px) {
-      .login-right[_ngcontent-khj-c143] {
-        padding-left: 20px !important
-      }
-    }
-
-    @media (min-width:767px) and (max-width:991px) {
-      .login-right[_ngcontent-khj-c143] {
-        padding-left: 20px !important
-      }
-    }
-
-    .disclaimer-head[_ngcontent-khj-c143],
-    .mat-list-item[_ngcontent-khj-c143] {
-      font-family: jiotypelight !important
-    }
-
-    .mat-list-item[_ngcontent-khj-c143] {
-      font-size: 12px !important;
-      height: auto !important
-    }
-
-    .footnote[_ngcontent-khj-c143] {
-      font-size: 14px !important;
-      margin-left: 18px !important
-    }
-
-    .mat-checkbox-label[_ngcontent-khj-c143] {
-      font-family: jiotypelight !important
-    }
-
-    .backdropBackground {
-      opacity: 1 !important;
-      background-color: hsla(0, 0%, 86.3%, .9)
-    }
-
-    .txtCaptcha[_ngcontent-khj-c143] {
-      height: 23px
-    }
-
-    .hide-onmobile[_ngcontent-khj-c143] {
-      display: block
-    }
-
-    @media (max-width:991px) {
-      .hide-onmobile[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .show-onmobile[_ngcontent-khj-c143] {
-      display: none
-    }
-
-    @media (max-width:991px) {
-      .show-onmobile[_ngcontent-khj-c143] {
-        display: block
-      }
-    }
-
-    .landing-page1[_ngcontent-khj-c143] {
-      background-color: #fff
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .header-div1[_ngcontent-khj-c143] {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: #fff
-    }
-
-    @media (max-width:767px) {
-      .landing-page1[_ngcontent-khj-c143] .header-div1[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] {
-      display: flex
-    }
-
-    @media (min-width:768px) {
-      .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] .navbar-brand[_ngcontent-khj-c143] {
-      margin-right: 8px;
-      flex: 0 0 21%
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] .navbar-brand[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] .nav-link[_ngcontent-khj-c143] {
-      font: 500 14px/16px jiotypemedium;
-      color: #a9a9a9;
-      padding: 4px 12px
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] .nav-link.active[_ngcontent-khj-c143] {
-      color: #04a651
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .mobile_nav[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143] {
-      flex: 0 0 59%;
-      margin: 0;
-      padding-right: 0;
-      text-align: left
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143] {
-      font-size: 1.5rem;
-      line-height: 45px;
-      margin-top: 2px
-    }
-
-    @media (max-width:767px) {
-      .landing-page1[_ngcontent-khj-c143] .header-partner[_ngcontent-khj-c143] {
-        font-size: 1.3rem;
-        line-height: 25px;
-        text-align: right;
-        margin-top: 17px;
-        padding-right: 45px
-      }
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .header-partner-bold[_ngcontent-khj-c143] {
-      font-size: 1.5rem;
-      line-height: 45px;
-      margin-left: 7px
-    }
-
-    @media (max-width:767px) {
-      .landing-page1[_ngcontent-khj-c143] .header-partner-bold[_ngcontent-khj-c143] {
-        font-size: 1.3rem;
-        line-height: 25px;
-        text-align: right
-      }
-    }
-
-    .landing-page1__nav-div[_ngcontent-khj-c143] {
-      text-align: right;
-      margin-top: 20px
-    }
-
-    .landing-page1__nav-div[_ngcontent-khj-c143] a[_ngcontent-khj-c143] {
-      font: 500 14px/16px jiotypemedium;
-      color: #a9a9a9;
-      padding: 0 12px
-    }
-
-    .landing-page1__nav-div[_ngcontent-khj-c143] a.active[_ngcontent-khj-c143] {
-      color: #04a651
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .bottom-header[_ngcontent-khj-c143] {
-      background: url(header-line-bg.edb25e740dc24cd286ed.svg) no-repeat;
-      background-size: cover;
-      height: 80px;
-      position: fixed;
-      top: 45px;
-      z-index: 9;
-      width: 100%
-    }
-
-    @media (max-width:767px) {
-      .landing-page1[_ngcontent-khj-c143] .bottom-header[_ngcontent-khj-c143] {
-        display: none;
-        background: url(header-img-mob.7c2b6c33fd1027256055.png) no-repeat;
-        background-position: -2px -3px
-      }
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .bottom-header[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      position: relative;
-      top: -30px;
-      right: -59px;
-      width: 115px
-    }
-
-    @media (max-width:767px) {
-      .landing-page1[_ngcontent-khj-c143] .bottom-header[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-        top: -30px;
-        right: -5%;
-        width: 20%
-      }
-    }
-
-    .landing-page1__img-div[_ngcontent-khj-c143] {
-      display: flex;
-      margin: 0 -15px;
-      padding-top: 60px
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__img-div[_ngcontent-khj-c143] {
-        flex-direction: column;
-        padding-top: 6px;
-        position: relative
-      }
-    }
-
-    .landing-page1__img-div[_ngcontent-khj-c143] .mobile-head[_ngcontent-khj-c143] {
-      position: absolute;
-      top: -6px;
-      width: 100%
-    }
-
-    .landing-page1__img-div__image[_ngcontent-khj-c143] {
-      flex: 0 0 68%;
-      max-width: 68%;
-      height: 60vh
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__img-div__image[_ngcontent-khj-c143] {
-        flex: 0 0 100%;
-        max-width: 100%;
-        height: auto
-      }
-    }
-
-    .landing-page1__img-div__image[_ngcontent-khj-c143] .destop[_ngcontent-khj-c143] {
-      display: block
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__img-div__image[_ngcontent-khj-c143] .destop[_ngcontent-khj-c143] {
-        display: none
-      }
-    }
-
-    .landing-page1__img-div__image[_ngcontent-khj-c143] .mobile[_ngcontent-khj-c143] {
-      display: none
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__img-div__image[_ngcontent-khj-c143] .mobile[_ngcontent-khj-c143] {
-        display: block
-      }
-    }
-
-    .landing-page1__img-div__image[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%;
-      height: 100%
-    }
-
-    .landing-page1__img-div__add[_ngcontent-khj-c143] {
-      flex: 0 0 26%;
-      max-width: 26%;
-      padding-left: 0;
-      margin-left: 15px;
-      margin-top: 15px
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__img-div__add[_ngcontent-khj-c143] {
-        flex: 0 0 88%;
-        max-width: 88%;
-        margin: -40px auto auto
-      }
-    }
-
-    .landing-page1__img-div__add__img-wrapper[_ngcontent-khj-c143] {
-      outline: 2px solid transparent;
-      width: 100%;
-      border-radius: 13px;
-      height: 125px;
-      box-sizing: border-box
-    }
-
-    .landing-page1__img-div__add__img-wrapper[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 101%;
-      margin: 0 -2px;
-      height: 126px;
-      display: block
-    }
-
-    .landing-page1__img-div__add__form-div[_ngcontent-khj-c143] {
-      background-color: #fff;
-      padding: 12px 13px 6px 12px;
-      margin-top: 9px;
-      box-shadow: 1.28px 2.56px 16.02px 0 rgba(0, 0, 0, .1803921568627451)
-    }
-
-    .landing-page1__img-div__add__form-div__top[_ngcontent-khj-c143] {
-      border: 2px solid rgba(1, 136, 55, .6);
-      border-radius: 8px;
-      background-color: #e7fff1
-    }
-
-    .landing-page1__img-div__add__form-div__top[_ngcontent-khj-c143] p[_ngcontent-khj-c143] {
-      font: 500 1rem/17px jiotypebold;
-      color: #272727;
-      padding: 13px 5px 0 15px;
-      text-align: center;
-      margin-bottom: 7px;
-      animation: opacityFadeIn 2s infinite;
-      will-change: opacity;
-      box-sizing: border-box
-    }
-
-    .landing-page1__img-div__add__form-div__top[_ngcontent-khj-c143] p[_ngcontent-khj-c143] span[_ngcontent-khj-c143] {
-      display: block;
-      font: 600 .75rem/18px jiotypelight;
-      color: #666
-    }
-
-    .landing-page1__img-div__add__form-div__bottom[_ngcontent-khj-c143] {
-      margin-top: 12px
-    }
-
-    .landing-page1__img-div__add__form-div__bottom[_ngcontent-khj-c143] .form-group[_ngcontent-khj-c143] {
-      margin-bottom: 2px !important
-    }
-
-    .landing-page1__img-div__add__form-div__bottom[_ngcontent-khj-c143] .btn.btn-theme[_ngcontent-khj-c143] {
-      background-color: #e9830e;
-      width: 100%;
-      font-weight: 500;
-      letter-spacing: .7px;
-      padding: 5px
-    }
-
-    .landing-page1__img-div__add__form-div__bottom[_ngcontent-khj-c143] .btn.btn-theme[_ngcontent-khj-c143]:hover {
-      color: #fff
-    }
-
-    .landing-page1__img-div__empty[_ngcontent-khj-c143] {
-      flex: 0 0 6%;
-      max-width: 6%
-    }
-
-    .landing-page1__hyperlink[_ngcontent-khj-c143] {
-      width: 93%;
-      margin: 13px auto auto;
-      display: flex
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__hyperlink[_ngcontent-khj-c143] {
-        overflow: scroll;
-        overflow-y: hidden
-      }
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] {
-      display: flex;
-      align-items: center;
-      padding: 13px;
-      background-color: #fff;
-      margin: 0 4px;
-      box-shadow: 1.28px 2.56px 16.02px 0 rgba(0, 0, 0, .1803921568627451);
-      flex: 0 0 16%;
-      position: relative
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] {
-        flex: 0 0 70%;
-        position: static
-      }
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .left[_ngcontent-khj-c143] {
-      flex: 0 0 21%;
-      max-width: 21%
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .left[_ngcontent-khj-c143] img[_ngcontent-khj-c143] {
-      width: 100%
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .right[_ngcontent-khj-c143] {
-      padding-left: 13px;
-      flex: 0 0 78%
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .right[_ngcontent-khj-c143] .inner-div[_ngcontent-khj-c143] {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .right[_ngcontent-khj-c143] p[_ngcontent-khj-c143] {
-      color: #272727;
-      font: 500 .75rem/13px jiotypemedium;
-      margin-bottom: 4px;
-      word-break: break-word;
-      padding-right: 10px
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .right[_ngcontent-khj-c143] a[_ngcontent-khj-c143] {
-      display: inline-block;
-      border-bottom: 1px solid #04a651;
-      color: #04a651;
-      font: 500 .6rem/13px jiotypemedium;
-      margin: 0 7px
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .right[_ngcontent-khj-c143] a[_ngcontent-khj-c143]:first-child {
-      margin-left: 0
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .right[_ngcontent-khj-c143] svg[_ngcontent-khj-c143] {
-      margin: 0 10px 0 2px;
-      display: inline-block
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .hide_div[_ngcontent-khj-c143] {
-      background-color: #fff;
-      position: absolute;
-      bottom: 77px;
-      left: -4px;
-      margin: 0 4px;
-      box-shadow: 1.28px 2.56px 16.02px 0 rgba(0, 0, 0, .1803921568627451);
-      width: 230px;
-      padding: 23px 10px 10px;
-      text-align: center
-    }
-
-    @media (max-width:767px) {
-      .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .hide_div[_ngcontent-khj-c143] {
-        flex: 0 0 70%;
-        bottom: 21%;
-        right: 3%;
-        width: 90%
-      }
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .hide_div[_ngcontent-khj-c143] .close-btnn[_ngcontent-khj-c143] {
-      cursor: pointer;
-      position: absolute;
-      color: #878787 !important;
-      right: 7px;
-      top: 0;
-      font-weight: 600
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .hide_div[_ngcontent-khj-c143] ul[_ngcontent-khj-c143] li[_ngcontent-khj-c143] {
-      display: inline-block;
-      width: 25%;
-      text-align: center;
-      margin: 6px
-    }
-
-    .landing-page1__hyperlink__wrapper[_ngcontent-khj-c143] .hide_div[_ngcontent-khj-c143] a[_ngcontent-khj-c143] {
-      display: inline-block;
-      border-bottom: 1px solid #04a651;
-      color: #04a651;
-      font: 500 .75rem/13px jiotypemedium;
-      margin: 0
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .disclaimer[_ngcontent-khj-c143] {
-      margin-top: 10px;
-      box-shadow: 0 2.38px 20.2px 0 rgba(0, 0, 0, .0784313725490196);
-      background-color: #fff;
-      padding: 16px 10px
-    }
-
-    .landing-page1[_ngcontent-khj-c143] .disclaimer[_ngcontent-khj-c143] p[_ngcontent-khj-c143] {
-      font: 500 .8rem/15px jiotypemedium;
-      color: #e70000;
-      text-align: center
-    }
-
-    marquee[_ngcontent-khj-c143] {
-      flex: 0 0 91%
-    }
-
-    @media (max-width:767px) {
-      marquee[_ngcontent-khj-c143] {
-        flex: 0 0 85%
-      }
-    }
-
-    .mobile-head[_ngcontent-khj-c143] {
-      display: none
-    }
-
-    @media (max-width:767px) {
-      .mobile-head[_ngcontent-khj-c143] {
-        display: block
-      }
-    }
-
-    @keyframes outlineFadeIn {
-      0% {
-        outline-color: transparent
-      }
-
-      50% {
-        outline-color: #8f6007
-      }
-
-      to {
-        outline-color: transparent
-      }
-    }
-
-    @keyframes opacityFadeIn {
-      0% {
-        opacity: 0
-      }
-
-      to {
-        opacity: 1
-      }
-    }
-  </style>
-  <style>
-    .mat-form-field {
-      display: inline-block;
-      position: relative;
-      text-align: left
-    }
-
-    [dir=rtl] .mat-form-field {
-      text-align: right
-    }
-
-    .mat-form-field-wrapper {
-      position: relative
-    }
-
-    .mat-form-field-flex {
-      display: inline-flex;
-      align-items: baseline;
-      box-sizing: border-box;
-      width: 100%
-    }
-
-    .mat-form-field-prefix,
-    .mat-form-field-suffix {
-      white-space: nowrap;
-      flex: none;
-      position: relative
-    }
-
-    .mat-form-field-infix {
-      display: block;
-      position: relative;
-      flex: auto;
-      min-width: 0;
-      width: 180px
-    }
-
-    .cdk-high-contrast-active .mat-form-field-infix {
-      border-image: linear-gradient(transparent, transparent)
-    }
-
-    .mat-form-field-label-wrapper {
-      position: absolute;
-      left: 0;
-      box-sizing: content-box;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none
-    }
-
-    [dir=rtl] .mat-form-field-label-wrapper {
-      left: auto;
-      right: 0
-    }
-
-    .mat-form-field-label {
-      position: absolute;
-      left: 0;
-      font: inherit;
-      pointer-events: none;
-      width: 100%;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      transform-origin: 0 0;
-      transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1), color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), width 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-      display: none
-    }
-
-    [dir=rtl] .mat-form-field-label {
-      transform-origin: 100% 0;
-      left: auto;
-      right: 0
-    }
-
-    .mat-form-field-empty.mat-form-field-label,
-    .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-      display: block
-    }
-
-    .mat-form-field-autofill-control:-webkit-autofill+.mat-form-field-label-wrapper .mat-form-field-label {
-      display: none
-    }
-
-    .mat-form-field-can-float .mat-form-field-autofill-control:-webkit-autofill+.mat-form-field-label-wrapper .mat-form-field-label {
-      display: block;
-      transition: none
-    }
-
-    .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,
-    .mat-input-server[placeholder]:not(:placeholder-shown)+.mat-form-field-label-wrapper .mat-form-field-label {
-      display: none
-    }
-
-    .mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,
-    .mat-form-field-can-float .mat-input-server[placeholder]:not(:placeholder-shown)+.mat-form-field-label-wrapper .mat-form-field-label {
-      display: block
-    }
-
-    .mat-form-field-label:not(.mat-form-field-empty) {
-      transition: none
-    }
-
-    .mat-form-field-underline {
-      position: absolute;
-      width: 100%;
-      pointer-events: none;
-      transform: scale3d(1, 1.0001, 1)
-    }
-
-    .mat-form-field-ripple {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      transform-origin: 50%;
-      transform: scaleX(0.5);
-      opacity: 0;
-      transition: background-color 300ms cubic-bezier(0.55, 0, 0.55, 0.2)
-    }
-
-    .mat-form-field.mat-focused .mat-form-field-ripple,
-    .mat-form-field.mat-form-field-invalid .mat-form-field-ripple {
-      opacity: 1;
-      transform: scaleX(1);
-      transition: transform 300ms cubic-bezier(0.25, 0.8, 0.25, 1), opacity 100ms cubic-bezier(0.25, 0.8, 0.25, 1), background-color 300ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-form-field-subscript-wrapper {
-      position: absolute;
-      box-sizing: border-box;
-      width: 100%;
-      overflow: hidden
-    }
-
-    .mat-form-field-subscript-wrapper .mat-icon,
-    .mat-form-field-label-wrapper .mat-icon {
-      width: 1em;
-      height: 1em;
-      font-size: inherit;
-      vertical-align: baseline
-    }
-
-    .mat-form-field-hint-wrapper {
-      display: flex
-    }
-
-    .mat-form-field-hint-spacer {
-      flex: 1 0 1em
-    }
-
-    .mat-error {
-      display: block
-    }
-
-    .mat-form-field-control-wrapper {
-      position: relative
-    }
-
-    .mat-form-field._mat-animation-noopable .mat-form-field-label,
-    .mat-form-field._mat-animation-noopable .mat-form-field-ripple {
-      transition: none
-    }
-  </style>
-  <style>
-    .mat-form-field-appearance-fill .mat-form-field-flex {
-      border-radius: 4px 4px 0 0;
-      padding: .75em .75em 0 .75em
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-fill .mat-form-field-flex {
-      outline: solid 1px
-    }
-
-    .mat-form-field-appearance-fill .mat-form-field-underline::before {
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 0;
-      height: 1px;
-      width: 100%
-    }
-
-    .mat-form-field-appearance-fill .mat-form-field-ripple {
-      bottom: 0;
-      height: 2px
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-fill .mat-form-field-ripple {
-      height: 0;
-      border-top: solid 2px
-    }
-
-    .mat-form-field-appearance-fill:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-underline .mat-form-field-ripple {
-      opacity: 1;
-      transform: none;
-      transition: opacity 600ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-form-field-appearance-fill._mat-animation-noopable:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-underline .mat-form-field-ripple {
-      transition: none
-    }
-
-    .mat-form-field-appearance-fill .mat-form-field-subscript-wrapper {
-      padding: 0 1em
-    }
-  </style>
-  <style>
-    .mat-input-element {
-      font: inherit;
-      background: transparent;
-      color: currentColor;
-      border: none;
-      outline: none;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      max-width: 100%;
-      vertical-align: bottom;
-      text-align: inherit
-    }
-
-    .mat-input-element:-moz-ui-invalid {
-      box-shadow: none
-    }
-
-    .mat-input-element::-ms-clear,
-    .mat-input-element::-ms-reveal {
-      display: none
-    }
-
-    .mat-input-element,
-    .mat-input-element::-webkit-search-cancel-button,
-    .mat-input-element::-webkit-search-decoration,
-    .mat-input-element::-webkit-search-results-button,
-    .mat-input-element::-webkit-search-results-decoration {
-      -webkit-appearance: none
-    }
-
-    .mat-input-element::-webkit-contacts-auto-fill-button,
-    .mat-input-element::-webkit-caps-lock-indicator,
-    .mat-input-element::-webkit-credentials-auto-fill-button {
-      visibility: hidden
-    }
-
-    .mat-input-element[type=date],
-    .mat-input-element[type=datetime],
-    .mat-input-element[type=datetime-local],
-    .mat-input-element[type=month],
-    .mat-input-element[type=week],
-    .mat-input-element[type=time] {
-      line-height: 1
-    }
-
-    .mat-input-element[type=date]::after,
-    .mat-input-element[type=datetime]::after,
-    .mat-input-element[type=datetime-local]::after,
-    .mat-input-element[type=month]::after,
-    .mat-input-element[type=week]::after,
-    .mat-input-element[type=time]::after {
-      content: " ";
-      white-space: pre;
-      width: 1px
-    }
-
-    .mat-input-element::-webkit-inner-spin-button,
-    .mat-input-element::-webkit-calendar-picker-indicator,
-    .mat-input-element::-webkit-clear-button {
-      font-size: .75em
-    }
-
-    .mat-input-element::placeholder {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-input-element::placeholder:-ms-input-placeholder {
-      -ms-user-select: text
-    }
-
-    .mat-input-element::-moz-placeholder {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-input-element::-moz-placeholder:-ms-input-placeholder {
-      -ms-user-select: text
-    }
-
-    .mat-input-element::-webkit-input-placeholder {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-input-element::-webkit-input-placeholder:-ms-input-placeholder {
-      -ms-user-select: text
-    }
-
-    .mat-input-element:-ms-input-placeholder {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-input-element:-ms-input-placeholder:-ms-input-placeholder {
-      -ms-user-select: text
-    }
-
-    .mat-form-field-hide-placeholder .mat-input-element::placeholder {
-      color: transparent !important;
-      -webkit-text-fill-color: transparent;
-      transition: none
-    }
-
-    .mat-form-field-hide-placeholder .mat-input-element::-moz-placeholder {
-      color: transparent !important;
-      -webkit-text-fill-color: transparent;
-      transition: none
-    }
-
-    .mat-form-field-hide-placeholder .mat-input-element::-webkit-input-placeholder {
-      color: transparent !important;
-      -webkit-text-fill-color: transparent;
-      transition: none
-    }
-
-    .mat-form-field-hide-placeholder .mat-input-element:-ms-input-placeholder {
-      color: transparent !important;
-      -webkit-text-fill-color: transparent;
-      transition: none
-    }
-
-    textarea.mat-input-element {
-      resize: vertical;
-      overflow: auto
-    }
-
-    textarea.mat-input-element.cdk-textarea-autosize {
-      resize: none
-    }
-
-    textarea.mat-input-element {
-      padding: 2px 0;
-      margin: -2px 0
-    }
-
-    select.mat-input-element {
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      position: relative;
-      background-color: transparent;
-      display: inline-flex;
-      box-sizing: border-box;
-      padding-top: 1em;
-      top: -1em;
-      margin-bottom: -1em
-    }
-
-    select.mat-input-element::-ms-expand {
-      display: none
-    }
-
-    select.mat-input-element::-moz-focus-inner {
-      border: 0
-    }
-
-    select.mat-input-element:not(:disabled) {
-      cursor: pointer
-    }
-
-    select.mat-input-element::-ms-value {
-      color: inherit;
-      background: none
-    }
-
-    .mat-focused .cdk-high-contrast-active select.mat-input-element::-ms-value {
-      color: inherit
-    }
-
-    .mat-form-field-type-mat-native-select .mat-form-field-infix::after {
-      content: "";
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid;
-      position: absolute;
-      top: 50%;
-      right: 0;
-      margin-top: -2.5px;
-      pointer-events: none
-    }
-
-    [dir=rtl] .mat-form-field-type-mat-native-select .mat-form-field-infix::after {
-      right: auto;
-      left: 0
-    }
-
-    .mat-form-field-type-mat-native-select .mat-input-element {
-      padding-right: 15px
-    }
-
-    [dir=rtl] .mat-form-field-type-mat-native-select .mat-input-element {
-      padding-right: 0;
-      padding-left: 15px
-    }
-
-    .mat-form-field-type-mat-native-select .mat-form-field-label-wrapper {
-      max-width: calc(100% - 10px)
-    }
-
-    .mat-form-field-type-mat-native-select.mat-form-field-appearance-outline .mat-form-field-infix::after {
-      margin-top: -5px
-    }
-
-    .mat-form-field-type-mat-native-select.mat-form-field-appearance-fill .mat-form-field-infix::after {
-      margin-top: -10px
-    }
-  </style>
-  <style>
-    .mat-form-field-appearance-legacy .mat-form-field-label {
-      transform: perspective(100px);
-      -ms-transform: none
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-prefix .mat-icon,
-    .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-icon {
-      width: 1em
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-prefix .mat-icon-button,
-    .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-icon-button {
-      font: inherit;
-      vertical-align: baseline
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-prefix .mat-icon-button .mat-icon,
-    .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-icon-button .mat-icon {
-      font-size: inherit
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-underline {
-      height: 1px
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-legacy .mat-form-field-underline {
-      height: 0;
-      border-top: solid 1px
-    }
-
-    .mat-form-field-appearance-legacy .mat-form-field-ripple {
-      top: 0;
-      height: 2px;
-      overflow: hidden
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-legacy .mat-form-field-ripple {
-      height: 0;
-      border-top: solid 2px
-    }
-
-    .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
-      background-position: 0;
-      background-color: transparent
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
-      border-top-style: dotted;
-      border-top-width: 2px
-    }
-
-    .mat-form-field-appearance-legacy.mat-form-field-invalid:not(.mat-focused) .mat-form-field-ripple {
-      height: 1px
-    }
-  </style>
-  <style>
-    .mat-form-field-appearance-outline .mat-form-field-wrapper {
-      margin: .25em 0
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-flex {
-      padding: 0 .75em 0 .75em;
-      margin-top: -0.25em;
-      position: relative
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-prefix,
-    .mat-form-field-appearance-outline .mat-form-field-suffix {
-      top: .25em
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline {
-      display: flex;
-      position: absolute;
-      top: .25em;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline-start,
-    .mat-form-field-appearance-outline .mat-form-field-outline-end {
-      border: 1px solid currentColor;
-      min-width: 5px
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline-start {
-      border-radius: 5px 0 0 5px;
-      border-right-style: none
-    }
-
-    [dir=rtl] .mat-form-field-appearance-outline .mat-form-field-outline-start {
-      border-right-style: solid;
-      border-left-style: none;
-      border-radius: 0 5px 5px 0
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline-end {
-      border-radius: 0 5px 5px 0;
-      border-left-style: none;
-      flex-grow: 1
-    }
-
-    [dir=rtl] .mat-form-field-appearance-outline .mat-form-field-outline-end {
-      border-left-style: solid;
-      border-right-style: none;
-      border-radius: 5px 0 0 5px
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline-gap {
-      border-radius: .000001px;
-      border: 1px solid currentColor;
-      border-left-style: none;
-      border-right-style: none
-    }
-
-    .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
-      border-top-color: transparent
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-      opacity: 0
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-start,
-    .mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-end,
-    .mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-gap {
-      border-width: 2px
-    }
-
-    .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline,
-    .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline {
-      opacity: 0;
-      transition: opacity 100ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
-    .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline-thick {
-      opacity: 1
-    }
-
-    .mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline {
-      opacity: 0;
-      transition: opacity 600ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline-thick {
-      opacity: 1
-    }
-
-    .mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
-      padding: 0 1em
-    }
-
-    .mat-form-field-appearance-outline._mat-animation-noopable:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-outline,
-    .mat-form-field-appearance-outline._mat-animation-noopable .mat-form-field-outline,
-    .mat-form-field-appearance-outline._mat-animation-noopable .mat-form-field-outline-start,
-    .mat-form-field-appearance-outline._mat-animation-noopable .mat-form-field-outline-end,
-    .mat-form-field-appearance-outline._mat-animation-noopable .mat-form-field-outline-gap {
-      transition: none
-    }
-  </style>
-  <style>
-    .mat-form-field-appearance-standard .mat-form-field-flex {
-      padding-top: .75em
-    }
-
-    .mat-form-field-appearance-standard .mat-form-field-underline {
-      height: 1px
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-standard .mat-form-field-underline {
-      height: 0;
-      border-top: solid 1px
-    }
-
-    .mat-form-field-appearance-standard .mat-form-field-ripple {
-      bottom: 0;
-      height: 2px
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-standard .mat-form-field-ripple {
-      height: 0;
-      border-top: 2px
-    }
-
-    .mat-form-field-appearance-standard.mat-form-field-disabled .mat-form-field-underline {
-      background-position: 0;
-      background-color: transparent
-    }
-
-    .cdk-high-contrast-active .mat-form-field-appearance-standard.mat-form-field-disabled .mat-form-field-underline {
-      border-top-style: dotted;
-      border-top-width: 2px
-    }
-
-    .mat-form-field-appearance-standard:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-underline .mat-form-field-ripple {
-      opacity: 1;
-      transform: none;
-      transition: opacity 600ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    .mat-form-field-appearance-standard._mat-animation-noopable:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-underline .mat-form-field-ripple {
-      transition: none
-    }
-  </style>
-  <style>
-    .mat-select {
-      display: inline-block;
-      width: 100%;
-      outline: none
-    }
-
-    .mat-select-trigger {
-      display: inline-table;
-      cursor: pointer;
-      position: relative;
-      box-sizing: border-box
-    }
-
-    .mat-select-disabled .mat-select-trigger {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      cursor: default
-    }
-
-    .mat-select-value {
-      display: table-cell;
-      max-width: 0;
-      width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap
-    }
-
-    .mat-select-value-text {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis
-    }
-
-    .mat-select-arrow-wrapper {
-      display: table-cell;
-      vertical-align: middle
-    }
-
-    .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
-      transform: translateY(-50%)
-    }
-
-    .mat-form-field-appearance-outline .mat-select-arrow-wrapper {
-      transform: translateY(-25%)
-    }
-
-    .mat-form-field-appearance-standard.mat-form-field-has-label .mat-select:not(.mat-select-empty) .mat-select-arrow-wrapper {
-      transform: translateY(-50%)
-    }
-
-    .mat-form-field-appearance-standard .mat-select.mat-select-empty .mat-select-arrow-wrapper {
-      transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    ._mat-animation-noopable.mat-form-field-appearance-standard .mat-select.mat-select-empty .mat-select-arrow-wrapper {
-      transition: none
-    }
-
-    .mat-select-arrow {
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid;
-      margin: 0 4px
-    }
-
-    .mat-select-panel-wrap {
-      flex-basis: 100%
-    }
-
-    .mat-select-panel {
-      min-width: 112px;
-      max-width: 280px;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-top: 0;
-      padding-bottom: 0;
-      max-height: 256px;
-      min-width: 100%;
-      border-radius: 4px
-    }
-
-    .cdk-high-contrast-active .mat-select-panel {
-      outline: solid 1px
-    }
-
-    .mat-select-panel .mat-optgroup-label,
-    .mat-select-panel .mat-option {
-      font-size: inherit;
-      line-height: 3em;
-      height: 3em
-    }
-
-    .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
-      cursor: pointer
-    }
-
-    .mat-form-field-type-mat-select .mat-form-field-label {
-      width: calc(100% - 18px)
-    }
-
-    .mat-select-placeholder {
-      transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1)
-    }
-
-    ._mat-animation-noopable .mat-select-placeholder {
-      transition: none
-    }
-
-    .mat-form-field-hide-placeholder .mat-select-placeholder {
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-      transition: none;
-      display: block
-    }
-  </style>
-  <style>
-    .mat-option {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-      line-height: 48px;
-      height: 48px;
-      padding: 0 16px;
-      text-align: left;
-      text-decoration: none;
-      max-width: 100%;
-      position: relative;
-      cursor: pointer;
-      outline: none;
-      display: flex;
-      flex-direction: row;
-      max-width: 100%;
-      box-sizing: border-box;
-      align-items: center;
-      -webkit-tap-highlight-color: transparent
-    }
-
-    .mat-option[disabled] {
-      cursor: default
-    }
-
-    [dir=rtl] .mat-option {
-      text-align: right
-    }
-
-    .mat-option .mat-icon {
-      margin-right: 16px;
-      vertical-align: middle
-    }
-
-    .mat-option .mat-icon svg {
-      vertical-align: top
-    }
-
-    [dir=rtl] .mat-option .mat-icon {
-      margin-left: 16px;
-      margin-right: 0
-    }
-
-    .mat-option[aria-disabled=true] {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      cursor: default
-    }
-
-    .mat-optgroup .mat-option:not(.mat-option-multiple) {
-      padding-left: 32px
-    }
-
-    [dir=rtl] .mat-optgroup .mat-option:not(.mat-option-multiple) {
-      padding-left: 16px;
-      padding-right: 32px
-    }
-
-    .cdk-high-contrast-active .mat-option {
-      margin: 0 1px
-    }
-
-    .cdk-high-contrast-active .mat-option.mat-active {
-      border: solid 1px currentColor;
-      margin: 0
-    }
-
-    .mat-option-text {
-      display: inline-block;
-      flex-grow: 1;
-      overflow: hidden;
-      text-overflow: ellipsis
-    }
-
-    .mat-option .mat-option-ripple {
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      position: absolute;
-      pointer-events: none
-    }
-
-    .cdk-high-contrast-active .mat-option .mat-option-ripple {
-      opacity: .5
-    }
-
-    .mat-option-pseudo-checkbox {
-      margin-right: 8px
-    }
-
-    [dir=rtl] .mat-option-pseudo-checkbox {
-      margin-left: 8px;
-      margin-right: 0
-    }
-  </style>
-  <style>
-    body {
-      font-family: "Roboto", sans-serif;
-    }
-  </style>
-  <style>
-    .form-group {
-      position: relative;
-      margin-bottom: 25px;
-      width: 100%;
-      /* full responsive */
-      max-width: 400px;
-      /* optional limit */
-    }
-
-    select {
-      width: 100%;
-      border: none;
-      border-bottom: 1px solid #999;
-      padding: 8px 0;
-      font-size: 16px;
-      background: transparent;
-      outline: none;
-      appearance: none;
-      /* remove default arrow */
-    }
-
-    /* custom arrow */
-    .form-group::after {
-      content: "▼";
-      font-size: 12px;
-      position: absolute;
-      right: 5px;
-      top: 12px;
-      color: #555;
-      pointer-events: none;
-    }
-
-    select:focus {
-      border-bottom: 2px solid #3f51b5;
-    }
-
-    option[disabled] {
-      color: #999;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expression of Interest - Mobility Station Dealer</title>
 </head>
-<!-- Google tag (gtag.js) -->
+<body>
+  <div class="navbar">
+    <!-- Left -->
+    <div class="navbar-left">
+      <img src="/assets/img/logo-main screen.svg" alt="Jio-bp Logo">
+    </div>
 
-<body class="skin-blue sidebar-mini sidebar-collapse fixed" style="height: auto; min-height: 100%;">
-  <!-- Google Tag Manager (noscript) -->
+    <!-- Center -->
+    <div class="navbar-center">
+      Partners in <span>Progress</span>
+    </div>
 
-  <!-- End Google Tag Manager (noscript) -->
+    <!-- Right -->
+    <div class="navbar-right">
+      <a href="#">For Jio-bp dealership</a>
+      <a href="#">For EV Charging Station Partner</a>
+    </div>
+  </div>
 
-  <div class="wrapper" style="height: auto; min-height: 100%;">
-    <app-root _nghost-khj-c147="" ng-version="10.0.14"><app-loader _ngcontent-khj-c147=""
-        _nghost-khj-c146=""><!----></app-loader>
-      <div _ngcontent-khj-c147="" class="content-wrapper" style="min-height: 278px;">
-        <section _ngcontent-khj-c147="" class="content"><router-outlet
-            _ngcontent-khj-c147=""></router-outlet><app-landing _nghost-khj-c143="" class="ng-star-inserted">
-            <div _ngcontent-khj-c143="" class="landing-page1">
-              <div _ngcontent-khj-c143="" class="container-fluid1">
-                <div _ngcontent-khj-c143="" class="header-div1">
-                  <div _ngcontent-khj-c143="" class="row header-div">
-                    <div _ngcontent-khj-c143="" class="col-md-2">
-                      <div _ngcontent-khj-c143="" class="landing-page1__log-div"></div>
-                    </div>
-                    <div _ngcontent-khj-c143="" class="col-md-4">
-                      <div _ngcontent-khj-c143="" class="header-partner" style="font-family: Roboto; font-weight: 400;">
-                        Partners in<strong _ngcontent-khj-c143="" class="header-partner-bold"
-                          style="font-family: sans-serif; font-weight: 600;">Progress</strong></div>
-                    </div>
-                    <div _ngcontent-khj-c143="" class="col-md-6">
-                      <div _ngcontent-khj-c143="" class="landing-page1__nav-div"><a _ngcontent-khj-c143=""
-                          href="javscript: void(0);" id="link1" class="active" style="font-family: Roboto;">For Jio-bp
-                          dealership</a><a _ngcontent-khj-c143="" href="javscript: void(0);" id="link2"
-                          style="font-family: Roboto;">For EV Charging Station
-                          Partner</a></div>
-                    </div>
-                  </div>
-                </div>
-                <nav _ngcontent-khj-c143="" class="mobile_nav navbar navbar-expand-md navbar-light"><a
-                    _ngcontent-khj-c143="" href="#" class="navbar-brand"><img _ngcontent-khj-c143=""
-                      src="assets/img/logo-main screen.svg" alt=""></a>
-                  <div _ngcontent-khj-c143="" class="header-partner">Partners in<strong _ngcontent-khj-c143=""
-                      class="header-partner-bold">Progress</strong></div><button _ngcontent-khj-c143="" type="button"
-                    aria-controls="navbarSupportedContent" aria-label="Toggle navigation" class="navbar-toggler"><span
-                      _ngcontent-khj-c143="" class="navbar-toggler-icon"></span></button>
-                  <div _ngcontent-khj-c143="" id="navbarSupportedContent" class="navbar-collapse collapse">
-                    <ul _ngcontent-khj-c143="" class="navbar-nav ml-auto">
-                      <li _ngcontent-khj-c143="" class="nav-item"><a _ngcontent-khj-c143="" href="javscript: void(0);"
-                          id="link1" class="nav-link active">For Jio-bp dealership</a></li>
-                      <li _ngcontent-khj-c143="" class="nav-item"><a _ngcontent-khj-c143="" href="javscript: void(0);"
-                          id="link2" class="nav-link">For EV Charging Station Partner</a></li>
-                    </ul>
-                  </div>
-                </nav>
-                <div _ngcontent-khj-c143="" class="bottom-header"><img _ngcontent-khj-c143=""
-                    src="assets/img/logo-main screen.svg" alt=""></div>
-                <div _ngcontent-khj-c143="" class="row1 landing-page1__img-div"><img _ngcontent-khj-c143=""
-                    src="assets/img/new-img/header-img-mob.png" alt="" class="mobile-head">
-                  <div _ngcontent-khj-c143="" class="landing-page1__img-div__image"><img _ngcontent-khj-c143=""
-                      src="assets/img/new-img/bg-image.png" alt="" class="destop"><img _ngcontent-khj-c143=""
-                      src="assets/img/new-img/bg-image-mobile.png" alt="" class="mobile"></div>
-                  <div _ngcontent-khj-c143="" class="landing-page1__img-div__add">
-                    <div _ngcontent-khj-c143="" class="landing-page1__img-div__add__img-wrapper"><img
-                        _ngcontent-khj-c143="" src="assets/img/new-img/advertise-slider.gif"></div>
-                    <div _ngcontent-khj-c143="" class="landing-page1__img-div__add__form-div">
-                      <div _ngcontent-khj-c143="" class="landing-page1__img-div__add__form-div__top">
-                        <p _ngcontent-khj-c143=""> Apply for Jio-bp Dealership!!! <span _ngcontent-khj-c143="">Select
-                            State &amp; District</span></p>
-                      </div>
-                      <div _ngcontent-khj-c143="" class="landing-page1__img-div__add__form-div__bottom">
-                        <form id="basicForm">
-                          <div class="form-group">
-                            <select id="state" name="state" onchange="loadDistricts()" required>
-                              <option value="" disabled selected>State</option>
+  <!-- Color strip -->
+  <div class="color-strip">
+    <div class="strip-green"></div>
+    <div class="strip-yellow"></div>
+    <div class="strip-darkgreen"></div>
+  </div>
+
+  <div class="container">
+    <h2>Expression of Interest - Mobility Station Dealer</h2>
+
+    <!-- ✅ Form Start -->
+    <form id="applicationForm" onsubmit="return validateForm()">
+
+      <!-- Applicant Details -->
+      <div class="section-title">Applicant Details</div>
+      <div class="form-group half">
+        <input type="text" id="firstName" placeholder="First Name *" required>
+        <input type="text" id="middleName" placeholder="Middle Name">
+        <input type="text" id="lastName" placeholder="Last Name *" required>
+      </div>
+      <div class="error-message" id="nameError"></div>
+
+      <div class="form-group half">
+        <input type="email" id="email" placeholder="Email ID *" required>
+        <input type="tel" id="mobile" placeholder="Mobile *" required>
+      </div>
+      <div class="error-message" id="contactError"></div>
+
+      <div class="form-group half">
+        <select id="sourceInfo" required>
+          <option value="">Source of Information *</option>
+          <option value="website">Digital Ad</option>
+          <option value="advertisement">NewsPaper Ad</option>
+          <option value="reference">TV Ad</option>
+          <option value="reference"> Contacted by Company </option>
+          <option value="reference"> Corporate Tie-up </option>
+        </select>
+        <select id="occupation" required>
+          <option value=""> Select occupation</option>
+          <option value="Transportation & Logistics"> Transportation & Logistics </option>
+          <option value="Petroleum Products & Dealership"> Petroleum Products & Dealership </option>
+          <option value="Real Estate & Housing "> Real Estate & Housing </option>
+          <option value="Automobile related"> Automobile related  </option>
+          <option value="Construction"> Construction  </option>
+          <option value="Utilities"> Utilities </option>
+           <option value="Agriculture"> Agriculture </option>
+            <option value="Salaried">  Salaried   </option>
+             <option value=" Others ">  Others   </option>
+        </select>
+        <input type="number" id="income" placeholder="Last Year's Income in Rs (Lacs) *" required min="0">
+      </div>
+      <div class="error-message" id="occupationError"></div>
+
+      <!-- Advertised Location Details -->
+      <div class="section-title">Advertised Location Details</div>
+      <div class="form-group half">
+        <select id="state" name="state" onchange="loadDistricts()" required>
+         <option value="" disabled selected>State</option>
                               <option value="Andhra Pradesh">Andhra Pradesh</option>
                               <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                               <option value="Assam">Assam</option>
@@ -2279,86 +131,104 @@
                               <option value="Uttar Pradesh">Uttar Pradesh</option>
                               <option value="Uttarakhand">Uttarakhand</option>
                               <option value="West Bengal">West Bengal</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <select id="district" name="district" required>
-                              <option value="" disabled selected>District</option>
-                            </select>
-                          </div>
-                          <button type="submit" class="btn" style="background: transparent; padding: 0;"><img src="assets/img/new-img/apply-btn.jfif" style="width: 100%;"></button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <div _ngcontent-khj-c143="" class="landing-page1__img-div__empty"></div>
-                </div>
-                <div _ngcontent-khj-c143="" class="landing-page1__hyperlink">
-                  <div _ngcontent-khj-c143="" class="landing-page1__hyperlink__wrapper">
-                    <div _ngcontent-khj-c143="" class="left"><img _ngcontent-khj-c143=""
-                        src="assets/img/new-img/frame-01.png"></div>
-                    <div _ngcontent-khj-c143="" class="right">
-                      <div _ngcontent-khj-c143="" class="d-flex">
-                        <p _ngcontent-khj-c143="" style="font-family: Roboto;">Brochure For <br _ngcontent-khj-c143="">
-                          Dealership</p>
-                      </div>
-                      <div _ngcontent-khj-c143="" class="inner-div"><a _ngcontent-khj-c143=""
-                          href="../../../assets/pdf/Hindi_Brochure.pdf" download="Hindi_Brochure.pdf"> हिन्दी </a><a
-                          _ngcontent-khj-c143="" href="../../../assets/pdf/English_Brochure.pdf"
-                          download="English_Brochure.pdf"> English </a><a _ngcontent-khj-c143=""
-                          href="javscript: void(0);" class="other"> Other </a></div>
-                    </div><!---->
-                  </div>
-                  <div _ngcontent-khj-c143="" class="landing-page1__hyperlink__wrapper">
-                    <div _ngcontent-khj-c143="" class="left"><img _ngcontent-khj-c143=""
-                        src="assets/img/new-img/frame-02.png"></div>
-                    <div _ngcontent-khj-c143="" class="right">
-                      <p _ngcontent-khj-c143="" style="font-family: Roboto;">For Queries Contact</p>
-                      <div _ngcontent-khj-c143="" class="inner-div"><a _ngcontent-khj-c143=""
-                          href="../../../assets/pdf/State_Office_Address.pdf" download="State_Office_Address.pdf"
-                          style="font-family: Roboto;">
-                          Download </a></div>
-                    </div>
-                  </div>
-                  <div _ngcontent-khj-c143="" class="landing-page1__hyperlink__wrapper">
-                    <div _ngcontent-khj-c143="" class="left"><img _ngcontent-khj-c143=""
-                        src="assets/img/new-img/frame-03.png"></div>
-                    <div _ngcontent-khj-c143="" class="right">
-                      <p _ngcontent-khj-c143="" style="font-family: Roboto;">Beware Of Fraudster</p>
-                      <div _ngcontent-khj-c143="" class="inner-div"><a _ngcontent-khj-c143=""
-                          href="../../../assets/pdf/Fraudster.pdf" download="Fraudster.pdf"
-                          style="font-family: Roboto;"> Download </a></div>
-                    </div>
-                  </div>
-                  <div _ngcontent-khj-c143="" class="landing-page1__hyperlink__wrapper">
-                    <div _ngcontent-khj-c143="" class="left"><img _ngcontent-khj-c143=""
-                        src="assets/img/new-img/frame-04.png"></div>
-                    <div _ngcontent-khj-c143="" class="right">
-                      <p _ngcontent-khj-c143="" style="font-family: Roboto;">User Manual For Applicant</p>
-                      <div _ngcontent-khj-c143="" class="inner-div"><a _ngcontent-khj-c143=""
-                          href="../../../assets/pdf/User_Manual_for_Applicant.pdf" download="User_Manual.pdf"> Download
-                        </a></div>
-                    </div>
-                  </div>
-                  
-                  
-                  </div>
-                </div>
-                <div _ngcontent-khj-c143="" class="disclaimer">
-                  <p _ngcontent-khj-c143="" style="text-align: left; display: flex; font-family: Roboto;"> Notice :
-                    <marquee _ngcontent-khj-c143="">Applicants are required to make a non-refundable payment of Rs.
-                      5000/-
-                      (inclusive of GST) against application fees through this website only. RBML is not responsible for
-                      any other online payment made through any other mode/ website.</marquee>​ </p>
-                </div>
-              </div>
-            </div>
-          </app-landing><!----></section>
+        </select>
+        <select id="district" name="district" required>
+          <option value="" disabled selected>District</option>
+        </select>
+        <input type="text" id="landDetail" placeholder="Land Detail">
       </div>
-    </app-root>
+      <div class="error-message" id="locationError"></div>
 
-    <script>
-      const districts = {
+      <div class="form-group">
+        <input type="text" id="stretchDetails" placeholder="Stretch Details (with landmarks)">
+      </div>
+
+      <!-- Applicant Land Details -->
+      <div class="section-title">Applicant Land Details</div>
+      <div class="form-group">
+        <input type="text" id="proposedLocation" placeholder="Proposed Location Address/City *" required>
+      </div>
+      <div class="error-message" id="addressError"></div>
+
+      <div class="form-group half">
+        <input type="text" id="latitude" placeholder="Latitude">
+        <input type="text" id="longitude" placeholder="Longitude">
+        <input type="number" id="frontage" placeholder="Frontage (in meters) *" required min="0">
+      </div>
+      <div class="error-message" id="dimensionsError1"></div>
+
+      <div class="form-group half">
+        <input type="number" id="rearLength" placeholder="Rear Length (in meters) *" required min="0">
+        <input type="number" id="rhsDepth" placeholder="RHS Depth (in meters) *" required min="0">
+        <input type="number" id="lhsDepth" placeholder="LHS Depth (in meters) *" required min="0">
+      </div>
+      <div class="error-message" id="dimensionsError2"></div>
+
+      <!-- Captcha -->
+      <div class="section-title">Verification</div>
+      <div class="captcha-box">
+        <div class="captcha-code" id="captcha">X7WL</div>
+        <button type="button" class="btn" style="border-radius:8px;padding:6px 12px;" onclick="generateCaptcha()">↻</button>
+      </div>
+      <div class="form-group">
+        <input type="text" id="captchaInput" placeholder="Captcha *" required>
+      </div>
+      <div class="error-message" id="captchaError"></div>
+
+      <!-- Disclaimer -->
+      <div class="section-title">Disclaimer</div>
+      <div class="disclaimer">
+        <p>Mere submission of the information by you shall not be deemed as guaranteed acceptance of the EOI and does not guarantee any commitment by the company.</p>
+        <p>Company reserves the right to reject any application at its sole discretion without assigning any reason or intimation.</p>
+        <p>We do not have any agents to facilitate Channel Partner appointments, kindly do not deal with any third party who assure grant of dealership etc. to you. <a href="#" style="color:red">*Read Fraud Advisory for further information.</a></p>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="agreeCheckbox" required>
+        <label for="agreeCheckbox">Read the disclaimer & I agree to receive any communication from Jio-bp in this regard.</label>
+      </div>
+      <div class="error-message" id="checkboxError"></div>
+
+      <div class="spinner" id="spinner"></div>
+      <button class="btn" id="submitBtn" type="submit">Register Now</button>
+    </form>
+    <!-- ✅ Form End -->
+  </div>
+
+  <!-- Error Modal -->
+  <div class="modal" id="errorModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Error</div>
+        <span class="close" onclick="closeModal('errorModal')">&times;</span>
+      </div>
+      <div class="modal-body" id="errorMessage">
+        There was an error processing your request.
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" onclick="closeModal('errorModal')">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal success-modal" id="successModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Success</div>
+        <span class="close" onclick="closeModal('successModal')">&times;</span>
+      </div>
+      <div class="modal-body" id="successMessage">
+        Form submitted successfully!
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" onclick="closeModal('successModal')">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+       const districts = {
         "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna", "Kurnool", "Prakasam", "Nellore", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari"],
         "Arunachal Pradesh": ["Tawang", "West Kameng", "East Kameng", "Papum Pare", "Kurung Kumey", "Kra Daadi", "Lower Subansiri", "Upper Subansiri", "West Siang", "East Siang", "Siang", "Upper Siang", "Lower Siang", "Lower Dibang Valley", "Dibang Valley", "Anjaw", "Lohit", "Namsai", "Changlang", "Tirap", "Longding"],
         "Assam": ["Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup Metropolitan", "Kamrup", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Dima Hasao", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"],
@@ -2404,34 +274,191 @@
           });
         }
       }
+  </script>
+  <script>
+    let currentCaptcha = "X7WL"; 
+    
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let captcha = "";
+      for (let i = 0; i < 5; i++) {
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById("captcha").innerText = captcha;
+      currentCaptcha = captcha;
+    }
 
-      // Handle form submit
-      document.addEventListener("DOMContentLoaded", function() {
-        const form = document.getElementById("basicForm");
-        if (form) {
-          form.addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const state = document.getElementById("state").value;
-            const district = document.getElementById("district").value;
-            try {
-              // Store in Realtime DB and get token (push key)
-              const ref = db.ref('dealership_applications').push();
-              await ref.set({
-                state,
-                district,
-                createdAt: new Date().toISOString()
-              });
-              const token = ref.key;
-              // Pass token to next page (via URL)
-              window.location.href = "application-submit.html?token=" + encodeURIComponent(token);
-            } catch (err) {
-              alert("Error saving data: " + err.message);
-            }
-          });
-        }
-      });
-    </script>
+    window.onload = function() {
+      generateCaptcha();
+    };
+
+    function getTokenFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('token');
+    }
+
+    function showModal(modalId, message) {
+      if (modalId === 'errorModal') {
+        document.getElementById('errorMessage').innerText = message;
+      } else if (modalId === 'successModal') {
+        document.getElementById('successMessage').innerText = message;
+      }
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function isValidPhone(phone) {
+      const phoneRegex = /^[6-9]\d{9}$/;
+      return phoneRegex.test(phone);
+    }
+
+    function validateForm() {
+      event.preventDefault(); // ✅ Stop form default submit
+      let isValid = true;
+      const errors = {};
+      
+      document.querySelectorAll('.error-message').forEach(el => el.innerText = '');
+      document.querySelectorAll('input, select').forEach(el => el.classList.remove('error'));
+      
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      if (!firstName) {
+        errors.name = 'First name is required';
+        document.getElementById('firstName').classList.add('error');
+        isValid = false;
+      }
+      if (!lastName) {
+        errors.name = errors.name ? errors.name + ', Last name is required' : 'Last name is required';
+        document.getElementById('lastName').classList.add('error');
+        isValid = false;
+      }
+      if (errors.name) document.getElementById('nameError').innerText = errors.name;
+
+      const email = document.getElementById('email').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      if (!email || !isValidEmail(email)) {
+        document.getElementById('email').classList.add('error');
+        errors.contact = 'Valid email is required';
+        isValid = false;
+      }
+      if (!mobile || !isValidPhone(mobile)) {
+        document.getElementById('mobile').classList.add('error');
+        errors.contact = errors.contact ? errors.contact + ', Valid mobile required' : 'Valid mobile required';
+        isValid = false;
+      }
+      if (errors.contact) document.getElementById('contactError').innerText = errors.contact;
+
+      const sourceInfo = document.getElementById('sourceInfo').value;
+      const occupation = document.getElementById('occupation').value;
+      const income = document.getElementById('income').value;
+      if (!sourceInfo || !occupation || !income || income < 0) {
+        document.getElementById('occupationError').innerText = 'Please fill source, occupation & valid income';
+        isValid = false;
+      }
+
+      const state = document.getElementById('state').value;
+      const district = document.getElementById('district').value;
+      if (!state || !district) {
+        document.getElementById('locationError').innerText = 'State & District required';
+        isValid = false;
+      }
+
+      const proposedLocation = document.getElementById('proposedLocation').value.trim();
+      if (!proposedLocation) {
+        document.getElementById('addressError').innerText = 'Proposed location is required';
+        isValid = false;
+      }
+
+      const frontage = document.getElementById('frontage').value;
+      const rearLength = document.getElementById('rearLength').value;
+      const rhsDepth = document.getElementById('rhsDepth').value;
+      const lhsDepth = document.getElementById('lhsDepth').value;
+      if (!frontage || !rearLength || !rhsDepth || !lhsDepth) {
+        document.getElementById('dimensionsError2').innerText = 'All land dimensions are required';
+        isValid = false;
+      }
+
+      const captchaInput = document.getElementById('captchaInput').value.trim();
+      if (!captchaInput || captchaInput.toUpperCase() !== currentCaptcha.toUpperCase()) {
+        document.getElementById('captchaError').innerText = 'Captcha does not match';
+        document.getElementById('captchaInput').classList.add('error');
+        isValid = false;
+        generateCaptcha();
+      }
+
+      const agreeCheckbox = document.getElementById('agreeCheckbox').checked;
+      if (!agreeCheckbox) {
+        document.getElementById('checkboxError').innerText = 'You must agree to the terms';
+        isValid = false;
+      }
+
+      if (isValid) submitForm();
+      return false;
+    }
+
+    function collectFormData() {
+      return {
+        firstName: document.getElementById('firstName').value.trim(),
+        middleName: document.getElementById('middleName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        mobile: document.getElementById('mobile').value.trim(),
+        sourceInfo: document.getElementById('sourceInfo').value,
+        occupation: document.getElementById('occupation').value,
+        income: document.getElementById('income').value,
+        state: document.getElementById('state').value,
+        district: document.getElementById('district').value,
+        landDetail: document.getElementById('landDetail').value.trim(),
+        stretchDetails: document.getElementById('stretchDetails').value.trim(),
+        proposedLocation: document.getElementById('proposedLocation').value.trim(),
+        latitude: document.getElementById('latitude').value.trim(),
+        longitude: document.getElementById('longitude').value.trim(),
+        frontage: document.getElementById('frontage').value,
+        rearLength: document.getElementById('rearLength').value,
+        rhsDepth: document.getElementById('rhsDepth').value,
+        lhsDepth: document.getElementById('lhsDepth').value,
+        agreedToTerms: document.getElementById('agreeCheckbox').checked,
+        submittedAt: new Date().toISOString()
+      };
+    }
+
+    async function submitForm() {
+      const token = getTokenFromUrl();
+      if (!token) {
+        showModal('errorModal', 'Token not found. Please start from the main page.');
+        return;
+      }
+
+      const data = collectFormData();
+      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('submitBtn').disabled = true;
+
+      try {
+        await db.ref('dealership_applications/' + token).set({
+          application: data,
+          applicationSubmittedAt: new Date().toISOString()
+        });
+        showModal('successModal', 'Form submitted successfully!');
+        document.getElementById('applicationForm').reset(); // ✅ FIXED RESET
+        generateCaptcha(); // refresh captcha after submit
+
+        // Redirect to payment.html with token
+        window.location.href = `payment.html?token=${token}`;
+      } catch (err) {
+        showModal('errorModal', 'Error saving application: ' + err.message);
+      } finally {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('submitBtn').disabled = false;
+      }
+    }
+  </script>
 </body>
-
-
 </html>
