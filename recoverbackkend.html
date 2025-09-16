@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Details</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Table layout for desktop */
+    .user-table {
+      margin-top: 20px;
+    }
+
+    h4 {
+      text-align: center;
+    }
+
+    .user-table thead {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    .user-table th,
+    .user-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    /* Card layout for mobile */
+    .user-card {
+      display: none;
+      background-color: white;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .user-card p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    .user-card span {
+      font-weight: 600;
+      color: #0d6efd;
+    }
+
+    /* Responsive design - show cards on mobile, table on desktop */
+    @media (max-width: 768px) {
+      .user-table {
+        display: none;
+      }
+
+      .user-card {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-4">
+    <div class="mb-4">
+      <h3 class="text-primary">Applicant Details</h3>
+      <hr>
+    </div>
+
+    <div id="userDetailsTable" class="user-table table-responsive">
+      <!-- Table for desktop -->
+      <table class="table table-bordered table-hover">
+        <thead class="table-primary">
+  <tr>
+    <th>#</th>
+    <th>First Name</th>
+    <th>Middle Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Mobile</th>
+    <th>State</th>
+    <th>District</th>
+    <th>Proposed Location</th>
+    <th>Land Detail</th>
+    <th>Occupation</th>
+    <th>Income</th>
+    <th>Frontage</th>
+    <th>Rear Length</th>
+    <th>LHS Depth</th>
+    <th>RHS Depth</th>
+    <th>Stretch Details</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Source Info</th>
+    <th>Agreed To Terms</th>
+    <th>Submitted At</th>
+    <th>Application Submitted At</th>
+    <th>Action</th>
+  </tr>
+</thead>
+
+        <tbody id="userTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Card view for mobile -->
+    <div id="userDetailsCards" class="row"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+    // Firebase config
+    var firebaseConfig = {
+      apiKey: "AIzaSyDiUXKlL2uFqZTJF80OycHwEU44OMjH5U4",
+      authDomain: "inquiry-form-796d0.firebaseapp.com",
+      databaseURL: "https://inquiry-form-796d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "inquiry-form-796d0",
+      storageBucket: "inquiry-form-796d0.firebasestorage.app",
+      messagingSenderId: "538374486014",
+      appId: "1:538374486014:web:0fd94f1b12a1c9e72f72af"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
+
+    // Time difference function
+    function timeSince(timestamp) {
+      if (!timestamp) return "N/A";
+      var now = new Date();
+      var secondsPast = (now.getTime() - new Date(timestamp).getTime()) / 1000;
+
+      if (secondsPast < 60) return `${Math.floor(secondsPast)} seconds ago`;
+      else if (secondsPast < 3600) {
+        var minutes = Math.floor(secondsPast / 60);
+        return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      } else if (secondsPast < 86400) {
+        var hours = Math.floor(secondsPast / 3600);
+        var minutes = Math.floor((secondsPast % 3600) / 60);
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      } else {
+        var days = Math.floor(secondsPast / 86400);
+        return `${days} day${days > 1 ? 's' : ''} ago`;
+      }
+    }
+
+    // Delete function
+    function deleteUser(userId) {
+      if (confirm('Are you sure you want to delete this entry?')) {
+        db.ref('dealership_applications/' + userId).remove()
+          .then(() => alert('Entry deleted successfully.'))
+          .catch(err => console.error('Error deleting:', err));
+      }
+    }
+
+    // Fetch dealership applications
+    function fetchApplications() {
+      var ref = db.ref('dealership_applications');
+      ref.on('value', function (snapshot) {
+        var data = snapshot.val();
+        var userTableBody = document.getElementById('userTableBody');
+        var userDetailsCards = document.getElementById('userDetailsCards');
+        userTableBody.innerHTML = '';
+        userDetailsCards.innerHTML = '';
+
+        if (!data) return;
+
+        var keys = Object.keys(data).reverse();
+        var serialNumber = keys.length;
+
+        keys.forEach(function (key) {
+          var entry = data[key];
+          var app = entry.application || {};
+          var payment = entry.payment || {};
+          var submissionTime = timeSince(app.submittedAt);
+
+          // Table row
+          var row = document.createElement('tr');
+          row.innerHTML = `
+  <td>${serialNumber}</td>
+  <td>${app.firstName || ''}</td>
+  <td>${app.middleName || ''}</td>
+  <td>${app.lastName || ''}</td>
+  <td>${app.email || ''}</td>
+  <td>${app.mobile || ''}</td>
+  <td>${app.state || ''}</td>
+  <td>${app.district || ''}</td>
+  <td>${app.proposedLocation || ''}</td>
+  <td>${app.landDetail || ''}</td>
+  <td>${app.occupation || ''}</td>
+  <td>${app.income || ''}</td>
+  <td>${app.frontage || ''}</td>
+  <td>${app.rearLength || ''}</td>
+  <td>${app.lhsDepth || ''}</td>
+  <td>${app.rhsDepth || ''}</td>
+  <td>${app.stretchDetails || ''}</td>
+  <td>${app.latitude || ''}</td>
+  <td>${app.longitude || ''}</td>
+  <td>${app.sourceInfo || ''}</td>
+  <td>${app.agreedToTerms ? 'Yes' : 'No'}</td>
+  <td>${app.submittedAt || ''}</td>
+  <td>${app.applicationSubmittedAt || ''}</td>
+  <td><button class="btn btn-danger btn-sm" onclick="deleteUser('${key}')">Delete</button></td>
+`;
+
+          userTableBody.appendChild(row);
+
+          // Card view
+          var card = document.createElement('div');
+          card.className = 'col-md-6 col-lg-4 user-card';
+          card.innerHTML = `
+  <h4>Submitted: ${submissionTime}</h4>
+  <p><span>First Name:</span> ${app.firstName || ''}</p>
+  <p><span>Middle Name:</span> ${app.middleName || ''}</p>
+  <p><span>Last Name:</span> ${app.lastName || ''}</p>
+  <p><span>Email:</span> ${app.email || ''}</p>
+  <p><span>Mobile:</span> ${app.mobile || ''}</p>
+  <p><span>State:</span> ${app.state || ''}</p>
+  <p><span>District:</span> ${app.district || ''}</p>
+  <p><span>Proposed Location:</span> ${app.proposedLocation || ''}</p>
+  <p><span>Land Detail:</span> ${app.landDetail || ''}</p>
+  <p><span>Occupation:</span> ${app.occupation || ''}</p>
+  <p><span>Income:</span> ${app.income || ''}</p>
+  <p><span>Frontage:</span> ${app.frontage || ''}</p>
+  <p><span>Rear Length:</span> ${app.rearLength || ''}</p>
+  <p><span>LHS Depth:</span> ${app.lhsDepth || ''}</p>
+  <p><span>RHS Depth:</span> ${app.rhsDepth || ''}</p>
+  <p><span>Stretch Details:</span> ${app.stretchDetails || ''}</p>
+  <p><span>Latitude:</span> ${app.latitude || ''}</p>
+  <p><span>Longitude:</span> ${app.longitude || ''}</p>
+  <p><span>Source Info:</span> ${app.sourceInfo || ''}</p>
+  <p><span>Agreed To Terms:</span> ${app.agreedToTerms ? 'Yes' : 'No'}</p>
+  <p><span>Submitted At:</span> ${app.submittedAt || ''}</p>
+  <p><span>Application Submitted At:</span> ${app.applicationSubmittedAt || ''}</p>
+  <button class="btn btn-danger btn-sm mt-2" onclick="deleteUser('${key}')">Delete</button>
+`;
+
+          userDetailsCards.appendChild(card);
+
+          serialNumber--;
+        });
+      });
+    }
+
+    // Initialize fetch
+    fetchApplications();
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
